@@ -47,22 +47,23 @@ function mapProductToFood(product: OffProduct): Food {
 // Returns an empty array when offline or on network errors.
 // ---------------------------------------------------------------------------
 export async function searchOpenFoodFacts(query: string): Promise<Food[]> {
-  const url = new URL(`${OFF_API_BASE}/cgi/search.pl`);
-  url.searchParams.set("search_terms", query);
-  url.searchParams.set("search_simple", "1");
-  url.searchParams.set("action", "process");
-  url.searchParams.set("json", "1");
-  url.searchParams.set("page_size", String(OFF_SEARCH_PAGE_SIZE));
-  url.searchParams.set("fields", "code,product_name,nutriments");
+  // v2 REST API — more stable than the legacy /cgi/search.pl endpoint
+  const params = new URLSearchParams({
+    q: query,
+    fields: "code,product_name,nutriments",
+    page_size: String(OFF_SEARCH_PAGE_SIZE),
+  });
+  const requestUrl = `${OFF_API_BASE}/api/v2/search?${params.toString()}`;
 
   try {
-    const response = await fetch(url.toString());
+    const response = await fetch(requestUrl);
     if (!response.ok) return [];
     const data: OffSearchResponse =
       (await response.json()) as OffSearchResponse;
     return data.products.filter((p) => p.product_name).map(mapProductToFood);
   } catch {
     // Offline or network error — gracefully return empty
+
     return [];
   }
 }

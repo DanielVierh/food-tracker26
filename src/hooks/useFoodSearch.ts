@@ -3,7 +3,9 @@ import { db } from "../db/db";
 import { searchOpenFoodFacts } from "../services/openFoodFacts";
 import type { Food } from "../types";
 
-const DEBOUNCE_MS = 400;
+const DEBOUNCE_MS = 600;
+// Minimum query length before hitting the OFF API — reduces rate-limit 503s
+const OFF_MIN_LENGTH = 4;
 
 // ---------------------------------------------------------------------------
 // useFoodSearch — debounced, local-first search.
@@ -47,8 +49,8 @@ export function useFoodSearch() {
 
       setResults(local);
 
-      // 2. API fallback when few local hits
-      if (local.length < 5) {
+      // 2. API fallback when few local hits and query is long enough
+      if (local.length < 5 && q.length >= OFF_MIN_LENGTH) {
         const apiResults = await searchOpenFoodFacts(q);
 
         if (apiResults.length > 0) {

@@ -3,6 +3,21 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+  server: {
+    proxy: {
+      // In dev, proxy /api/off → OFF to bypass CORS
+      "/api/off": {
+        target: "https://world.openfoodfacts.org",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/off/, ""),
+        // OFF requires a User-Agent to avoid 503 blocks.
+        // Browsers cannot set this header themselves, so the proxy sets it.
+        headers: {
+          "User-Agent": "FoodTracker/1.0 (https://github.com/food-tracker26; educational project)",
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({

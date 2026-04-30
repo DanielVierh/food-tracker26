@@ -33,8 +33,12 @@ export const DEFAULT_SETTINGS: Settings = {
 
 // ---------------------------------------------------------------------------
 // Open Food Facts API
+// In dev, requests go through Vite's proxy (/api/off) to avoid CORS.
+// In production the PWA fetches the real URL directly.
 // ---------------------------------------------------------------------------
-export const OFF_API_BASE = "https://world.openfoodfacts.org";
+export const OFF_API_BASE = import.meta.env.DEV
+  ? "/api/off"
+  : "https://world.openfoodfacts.org";
 
 /** How many API results to fetch per search query */
 export const OFF_SEARCH_PAGE_SIZE = 20;
