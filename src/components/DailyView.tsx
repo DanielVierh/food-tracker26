@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useEntries } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
 import { sumMacros } from "../utils/macros";
@@ -6,6 +6,7 @@ import MacroSummary from "./MacroSummary";
 import EntryList from "./EntryList";
 import AddEntryModal from "./AddEntryModal";
 import EditEntryModal from "./EditEntryModal";
+import Toast from "./Toast";
 import type { MealCategory, EntryWithFood } from "../types";
 
 function toISODate(date: Date): string {
@@ -16,6 +17,8 @@ export default function DailyView() {
   const [date, setDate] = useState<string>(toISODate(new Date()));
   const [showModal, setShowModal] = useState(false);
   const [editEntry, setEditEntry] = useState<EntryWithFood | null>(null);
+  const [toastMsg, setToastMsg] = useState("");
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [burnedKcal, setBurnedKcal] = useState<number>(() => {
     const stored = localStorage.getItem(`burned-kcal-${date}`);
     return stored ? Number(stored) : 0;
@@ -31,8 +34,21 @@ export default function DailyView() {
 
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
 
-  function handleAdd(foodId: number, meal: MealCategory, amountG: number) {
-    void addEntry(foodId, meal, amountG);
+  function showToast(msg: string) {
+    setToastMsg(msg);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToastMsg(""), 2500);
+  }
+
+  function handleAdd(
+    foodId: number,
+    meal: MealCategory,
+    amountG: number,
+    foodName: string,
+  ) {
+    void addEntry(foodId, meal, amountG).then(() => {
+      showToast(`✓ ${foodName} hinzugefügt`);
+    });
   }
 
   function handleDelete(id: number) {
@@ -91,6 +107,8 @@ export default function DailyView() {
       >
         + Hinzufügen
       </button>
+
+      <Toast message={toastMsg} />
 
       {showModal && (
         <AddEntryModal onAdd={handleAdd} onClose={() => setShowModal(false)} />

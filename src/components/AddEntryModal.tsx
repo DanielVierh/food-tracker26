@@ -7,7 +7,12 @@ import { MEAL_CATEGORIES, MEAL_CATEGORY_ORDER } from "../constants";
 import type { Food, MealCategory } from "../types";
 
 interface AddEntryModalProps {
-  onAdd: (foodId: number, meal: MealCategory, amountG: number) => void;
+  onAdd: (
+    foodId: number,
+    meal: MealCategory,
+    amountG: number,
+    foodName: string,
+  ) => void;
   onClose: () => void;
 }
 
@@ -59,7 +64,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   function handleConfirm() {
     if (!selectedFood?.id) return;
     localStorage.setItem("last-meal", meal);
-    onAdd(selectedFood.id, meal, amountG);
+    onAdd(selectedFood.id, meal, amountG, selectedFood.name);
     onClose();
   }
 
