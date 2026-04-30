@@ -8,7 +8,11 @@ interface EntryListProps {
   onDelete: (id: number) => void;
 }
 
-export default function EntryList({ entries, onEdit, onDelete }: EntryListProps) {
+export default function EntryList({
+  entries,
+  onEdit,
+  onDelete,
+}: EntryListProps) {
   const grouped = MEAL_CATEGORY_ORDER.reduce<
     Record<MealCategory, EntryWithFood[]>
   >(

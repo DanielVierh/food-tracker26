@@ -58,7 +58,11 @@ export default function DailyView() {
 
       <MacroSummary totals={totals} goals={settings} />
 
-      <EntryList entries={entries} onEdit={setEditEntry} onDelete={handleDelete} />
+      <EntryList
+        entries={entries}
+        onEdit={setEditEntry}
+        onDelete={handleDelete}
+      />
 
       <button
         className="btn btn--primary btn--fab"
