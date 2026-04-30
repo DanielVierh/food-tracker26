@@ -43,6 +43,28 @@ function mapProductToFood(product: OffProduct): Food {
 }
 
 // ---------------------------------------------------------------------------
+// Look up a single product by barcode via the OFF product endpoint.
+// Returns null when not found, offline, or on errors.
+// ---------------------------------------------------------------------------
+export async function lookupBarcodeOpenFoodFacts(
+  barcode: string,
+): Promise<Food | null> {
+  const requestUrl = `${OFF_API_BASE}/api/v2/product/${encodeURIComponent(barcode)}.json?fields=code,product_name,nutriments`;
+  try {
+    const response = await fetch(requestUrl);
+    if (!response.ok) return null;
+    const data = (await response.json()) as {
+      status: number;
+      product?: OffProduct;
+    };
+    if (data.status !== 1 || !data.product?.product_name) return null;
+    return mapProductToFood(data.product);
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Search the OFF API for a query string.
 // Returns an empty array when offline or on network errors.
 // ---------------------------------------------------------------------------

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useFoodSearch } from "../hooks/useFoodSearch";
+import { lookupBarcode } from "../services/barcodeService";
+import BarcodeScanner from "./BarcodeScanner";
 import { MEAL_CATEGORIES, MEAL_CATEGORY_ORDER } from "../constants";
 import type { Food, MealCategory } from "../types";
 
@@ -18,6 +20,21 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [meal, setMeal] = useState<MealCategory>("breakfast");
   const [amountG, setAmountG] = useState(100);
+
+  async function handleBarcodeDetected(barcode: string) {
+    setScannerOpen(false);
+    setScanError("");
+    const food = await lookupBarcode(barcode);
+    if (food) {
+      handleSelectFood(food);
+    } else {
+      setScanError(`Produkt für Barcode ${barcode} nicht gefunden.`);
+    }
+  }
+
+  // --- Custom food form state ---
+  const [scannerOpen, setScannerOpen] = useState(false);
+  const [scanError, setScanError] = useState("");
 
   // --- Custom food form state ---
   const [showCustomForm, setShowCustomForm] = useState(false);
@@ -71,14 +88,36 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
           <>
             <h2 className="modal__title">Lebensmittel suchen</h2>
 
-            <input
-              className="input"
-              type="search"
-              placeholder="z.B. Haferflocken, Banane …"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              autoFocus
-            />
+            <div className="modal__search-row">
+              <input
+                className="input"
+                type="search"
+                placeholder="z.B. Haferflocken, Banane …"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                autoFocus
+              />
+              <button
+                className="btn btn--icon"
+                onClick={() => {
+                  setScannerOpen(true);
+                  setScanError("");
+                }}
+                aria-label="Barcode scannen"
+                title="Barcode scannen"
+              >
+                📷
+              </button>
+            </div>
+
+            {scanError && <p className="modal__error">{scanError}</p>}
+
+            {scannerOpen && (
+              <BarcodeScanner
+                onDetected={(bc) => void handleBarcodeDetected(bc)}
+                onClose={() => setScannerOpen(false)}
+              />
+            )}
 
             {isLoading && <p className="modal__hint">Suche läuft …</p>}
 
