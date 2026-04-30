@@ -5,6 +5,7 @@ import { sumMacros } from "../utils/macros";
 import MacroSummary from "./MacroSummary";
 import EntryList from "./EntryList";
 import AddEntryModal from "./AddEntryModal";
+import EditEntryModal from "./EditEntryModal";
 import type { MealCategory, EntryWithFood } from "../types";
 
 function toISODate(date: Date): string {
@@ -14,7 +15,8 @@ function toISODate(date: Date): string {
 export default function DailyView() {
   const [date, setDate] = useState<string>(toISODate(new Date()));
   const [showModal, setShowModal] = useState(false);
-  const { entries, addEntry, deleteEntry } = useEntries(date);
+  const [editEntry, setEditEntry] = useState<EntryWithFood | null>(null);
+  const { entries, addEntry, deleteEntry, updateEntry } = useEntries(date);
   const { settings } = useSettings();
 
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
@@ -25,6 +27,10 @@ export default function DailyView() {
 
   function handleDelete(id: number) {
     void deleteEntry(id);
+  }
+
+  function handleSaveEdit(id: number, meal: MealCategory, amountG: number) {
+    void updateEntry(id, meal, amountG);
   }
 
   function changeDate(offsetDays: number) {
@@ -52,7 +58,7 @@ export default function DailyView() {
 
       <MacroSummary totals={totals} goals={settings} />
 
-      <EntryList entries={entries} onDelete={handleDelete} />
+      <EntryList entries={entries} onEdit={setEditEntry} onDelete={handleDelete} />
 
       <button
         className="btn btn--primary btn--fab"
@@ -64,6 +70,15 @@ export default function DailyView() {
 
       {showModal && (
         <AddEntryModal onAdd={handleAdd} onClose={() => setShowModal(false)} />
+      )}
+
+      {editEntry && (
+        <EditEntryModal
+          entry={editEntry}
+          onSave={handleSaveEdit}
+          onDelete={handleDelete}
+          onClose={() => setEditEntry(null)}
+        />
       )}
     </div>
   );

@@ -2,18 +2,26 @@ import type { EntryWithFood } from "../types";
 
 interface EntryCardProps {
   entry: EntryWithFood;
+  onEdit: (entry: EntryWithFood) => void;
   onDelete: (id: number) => void;
 }
 
-export default function EntryCard({ entry, onDelete }: EntryCardProps) {
+export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
   const { food, computed, amountG, id } = entry;
 
-  function handleDelete() {
+  function handleDelete(e: React.MouseEvent) {
+    e.stopPropagation();
     if (id !== undefined) onDelete(id);
   }
 
   return (
-    <div className="entry-card">
+    <div
+      className="entry-card"
+      role="button"
+      tabIndex={0}
+      onClick={() => onEdit(entry)}
+      onKeyDown={(e) => e.key === "Enter" && onEdit(entry)}
+    >
       <div className="entry-card__info">
         <span className="entry-card__name">{food.name}</span>
         <span className="entry-card__amount">{amountG} g</span>

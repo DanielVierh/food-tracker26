@@ -39,11 +39,16 @@ export function useEntries(date: string) {
     await db.entries.update(id, { amountG });
   }
 
+  async function updateEntry(id: number, meal: MealCategory, amountG: number) {
+    await db.entries.update(id, { meal, amountG });
+  }
+
   return {
     entries,
     addEntry,
     deleteEntry,
     updateEntryAmount,
+    updateEntry,
   };
 }
 

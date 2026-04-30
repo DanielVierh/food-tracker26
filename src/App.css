@@ -157,6 +157,13 @@ ul {
   background: var(--color-border);
   color: var(--color-text);
 }
+.btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+.btn--danger:hover {
+  background: #dc2626;
+}
 .btn--fab {
   position: fixed;
   bottom: 1.5rem;
@@ -268,6 +275,12 @@ ul {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.entry-card:hover {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-surface), var(--color-primary) 6%);
 }
 
 .entry-card__info {
@@ -366,6 +379,35 @@ ul {
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+}
+
+/* =========================================================
+   Edit Entry Modal — nutrient table
+   ========================================================= */
+.edit-modal__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+.edit-modal__table th,
+.edit-modal__table td {
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+.edit-modal__table th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.edit-modal__table td:nth-child(2),
+.edit-modal__table td:nth-child(3) {
+  text-align: right;
+  color: var(--color-text-muted);
+}
+.edit-modal__table td:nth-child(3) {
+  color: var(--color-text);
+  font-weight: 500;
 }
 
 /* =========================================================
