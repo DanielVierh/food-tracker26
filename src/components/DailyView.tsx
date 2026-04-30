@@ -10,7 +10,24 @@ import Toast from "./Toast";
 import type { MealCategory, EntryWithFood } from "../types";
 
 function toISODate(date: Date): string {
-  return date.toISOString().slice(0, 10);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function msUntilMidnight(): number {
+  const now = new Date();
+  const midnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+    0,
+    0,
+    0,
+    0,
+  );
+  return midnight.getTime() - now.getTime();
 }
 
 export default function DailyView() {
@@ -27,6 +44,14 @@ export default function DailyView() {
   useEffect(() => {
     const stored = localStorage.getItem(`burned-kcal-${date}`);
     setBurnedKcal(stored ? Number(stored) : 0);
+  }, [date]);
+
+  // Automatically advance to the next day at midnight
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDate(toISODate(new Date()));
+    }, msUntilMidnight());
+    return () => clearTimeout(timer);
   }, [date]);
 
   const { entries, addEntry, deleteEntry, updateEntry } = useEntries(date);
