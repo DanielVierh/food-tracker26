@@ -18,6 +18,7 @@ export default function EditEntryModal({
 }: EditEntryModalProps) {
   const [amountG, setAmountG] = useState(entry.amountG);
   const [meal, setMeal] = useState<MealCategory>(entry.meal);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const { food } = entry;
 
@@ -75,12 +76,32 @@ export default function EditEntryModal({
         </label>
 
         <div className="modal__actions">
-          <button className="btn btn--danger" onClick={handleDelete}>
-            Löschen
-          </button>
-          <button className="btn btn--primary" onClick={handleSave}>
-            Speichern
-          </button>
+          {confirmDelete ? (
+            <>
+              <span className="modal__delete-hint">Wirklich löschen?</span>
+              <button
+                className="btn btn--ghost"
+                onClick={() => setConfirmDelete(false)}
+              >
+                Abbrechen
+              </button>
+              <button className="btn btn--danger" onClick={handleDelete}>
+                Ja, löschen
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn--danger"
+                onClick={() => setConfirmDelete(true)}
+              >
+                Löschen
+              </button>
+              <button className="btn btn--primary" onClick={handleSave}>
+                Speichern
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

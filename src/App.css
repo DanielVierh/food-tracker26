@@ -438,6 +438,25 @@ ul {
   background: rgba(239, 68, 68, 0.1);
 }
 
+.entry-card__confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.entry-card__confirm-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  white-space: nowrap;
+}
+
+.entry-card__confirm-btn {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.45rem;
+  min-width: 0;
+}
+
 /* =========================================================
    Modal
    ========================================================= */
@@ -506,6 +525,15 @@ ul {
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.modal__delete-hint {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-danger);
 }
 
 /* =========================================================

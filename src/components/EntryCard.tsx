@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { EntryWithFood } from "../types";
 
 interface EntryCardProps {
@@ -8,10 +9,21 @@ interface EntryCardProps {
 
 export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
   const { food, computed, amountG, id } = entry;
+  const [confirming, setConfirming] = useState(false);
 
-  function handleDelete(e: React.MouseEvent) {
+  function handleDeleteClick(e: React.MouseEvent) {
+    e.stopPropagation();
+    setConfirming(true);
+  }
+
+  function handleConfirm(e: React.MouseEvent) {
     e.stopPropagation();
     if (id !== undefined) onDelete(id);
+  }
+
+  function handleCancel(e: React.MouseEvent) {
+    e.stopPropagation();
+    setConfirming(false);
   }
 
   return (
@@ -19,8 +31,8 @@ export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
       className="entry-card"
       role="button"
       tabIndex={0}
-      onClick={() => onEdit(entry)}
-      onKeyDown={(e) => e.key === "Enter" && onEdit(entry)}
+      onClick={() => !confirming && onEdit(entry)}
+      onKeyDown={(e) => e.key === "Enter" && !confirming && onEdit(entry)}
     >
       <div className="entry-card__info">
         <span className="entry-card__name">{food.name}</span>
@@ -32,13 +44,34 @@ export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
         <span>K {computed.carbs}g</span>
         <span>F {computed.fat}g</span>
       </div>
-      <button
-        className="entry-card__delete"
-        onClick={handleDelete}
-        aria-label={`${food.name} löschen`}
-      >
-        ✕
-      </button>
+      {confirming ? (
+        <div
+          className="entry-card__confirm"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span className="entry-card__confirm-text">Löschen?</span>
+          <button
+            className="btn btn--ghost entry-card__confirm-btn"
+            onClick={handleCancel}
+          >
+            ✕
+          </button>
+          <button
+            className="btn btn--danger entry-card__confirm-btn"
+            onClick={handleConfirm}
+          >
+            ✓
+          </button>
+        </div>
+      ) : (
+        <button
+          className="entry-card__delete"
+          onClick={handleDeleteClick}
+          aria-label={`${food.name} löschen`}
+        >
+          ✕
+        </button>
+      )}
     </div>
   );
 }
