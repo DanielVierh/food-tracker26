@@ -15,6 +15,7 @@ interface SeedRecord {
   salt: number;
   fiber: number;
   barcode: string;
+  quantityUnit?: string;
 }
 
 const SEED_KEY = "food-tracker-seeded-v1";
@@ -39,6 +40,7 @@ export async function seedDB(): Promise<void> {
       sugar: r.sugar,
       salt: r.salt,
       barcode: r.barcode || undefined,
+      quantityUnit: r.quantityUnit || undefined,
       source: "custom" as const,
     }));
 

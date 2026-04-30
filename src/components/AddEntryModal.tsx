@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFoodSearch } from "../hooks/useFoodSearch";
 import { lookupBarcode } from "../services/barcodeService";
 import BarcodeScanner from "./BarcodeScanner";
+import MacroPreview from "./MacroPreview";
 import { MEAL_CATEGORIES, MEAL_CATEGORY_ORDER } from "../constants";
 import type { Food, MealCategory } from "../types";
 
@@ -244,12 +245,8 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
         {step === "amount" && selectedFood && (
           <>
             <h2 className="modal__title">{selectedFood.name}</h2>
-            <p className="modal__hint">
-              Nährwerte pro 100 g: {selectedFood.kcal} kcal · P{" "}
-              {selectedFood.protein}g · K {selectedFood.carbs}g · F{" "}
-              {selectedFood.fat}g · Bst {selectedFood.fiber}g · Zck{" "}
-              {selectedFood.sugar}g · Salz {selectedFood.salt}g
-            </p>
+
+            <MacroPreview food={selectedFood} amountG={amountG} />
 
             <label className="form-label">
               Mahlzeit

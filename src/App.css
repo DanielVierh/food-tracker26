@@ -184,6 +184,7 @@ ul {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   color: var(--color-text);
+  font-size: 16px; /* prevent iOS auto-zoom */
   outline: none;
   transition: border-color 0.15s;
 }
@@ -414,28 +415,36 @@ ul {
   align-items: flex-end;
   justify-content: center;
   z-index: 50;
-  padding: var(--gap);
 }
 
 @media (min-width: 480px) {
   .modal-backdrop {
     align-items: center;
+    padding: var(--gap);
   }
 }
 
 .modal {
   background: var(--color-surface);
-  border-radius: var(--radius);
+  border-radius: var(--radius) var(--radius) 0 0;
   border: 1px solid var(--color-border);
   width: 100%;
   max-width: 480px;
-  max-height: 85dvh;
+  height: 92dvh;
   overflow-y: auto;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: var(--gap);
   position: relative;
+}
+
+@media (min-width: 480px) {
+  .modal {
+    border-radius: var(--radius);
+    height: auto;
+    max-height: 90dvh;
+  }
 }
 
 .modal__title {
@@ -466,32 +475,77 @@ ul {
 }
 
 /* =========================================================
-   Edit Entry Modal — nutrient table
+   Macro Preview — chip grid in modals
    ========================================================= */
-.edit-modal__table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+.macro-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
-.edit-modal__table th,
-.edit-modal__table td {
-  padding: 0.35rem 0.5rem;
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
-}
-.edit-modal__table th {
+
+.macro-preview__unit-hint {
+  font-size: 0.78rem;
   color: var(--color-text-muted);
-  font-weight: 600;
+  padding: 0.2rem 0;
 }
-.edit-modal__table td:nth-child(2),
-.edit-modal__table td:nth-child(3) {
+
+.macro-preview__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.3rem;
+  padding: 0 0.25rem;
+}
+
+.macro-preview__col-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
   text-align: right;
-  color: var(--color-text-muted);
 }
-.edit-modal__table td:nth-child(3) {
+
+.macro-preview__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.macro-chip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--color-bg);
+  border-left: 3px solid var(--chip-color, var(--color-primary));
+  border-radius: 0 0.35rem 0.35rem 0;
+  padding: 0.35rem 0.6rem;
+}
+
+.macro-chip__label {
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--color-text);
-  font-weight: 500;
+}
+
+.macro-chip__base {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.macro-chip__value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--chip-color, var(--color-text));
+  text-align: right;
+}
+
+.macro-chip__unit {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
 }
 
 /* =========================================================

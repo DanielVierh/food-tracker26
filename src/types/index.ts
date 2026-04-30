@@ -22,6 +22,8 @@ export interface Food extends Macros {
   name: string;
   /** EAN barcode, if available from Open Food Facts */
   barcode?: string;
+  /** Serving unit label from the product data (e.g. "Stück", "ml") */
+  quantityUnit?: string;
   /** All macro values are per 100 g */
   source: FoodSource;
 }
