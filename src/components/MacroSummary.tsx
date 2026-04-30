@@ -33,7 +33,7 @@ export default function MacroSummary({ totals, goals }: MacroSummaryProps) {
         <MacroBar
           key={key}
           label={label}
-          value={totals[key]}
+          value={Math.round(totals[key] * 10) / 10}
           goal={goals[key]}
           unit={unit}
           color={color}

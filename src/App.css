@@ -202,43 +202,53 @@ ul {
 /* =========================================================
    Macro summary
    ========================================================= */
+/* =========================================================
+   Macro Summary — ring chart grid
+   ========================================================= */
 .macro-summary {
   background: var(--color-surface);
   border-radius: var(--radius);
   padding: var(--gap);
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: 0.75rem;
 }
 
-.macro-bar {
+.macro-ring {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.2rem;
 }
 
-.macro-bar__header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
+.macro-ring__svg {
+  overflow: visible;
 }
-.macro-bar__label {
-  font-weight: 600;
+
+.macro-ring__value-text {
+  font-size: 14px;
+  font-weight: 700;
+  fill: var(--color-text);
+  font-family: var(--font);
 }
-.macro-bar__values {
+
+.macro-ring__unit-text {
+  font-size: 11px;
+  fill: var(--color-text-muted);
+  font-family: var(--font);
+}
+
+.macro-ring__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.macro-ring__goal {
+  font-size: 0.68rem;
   color: var(--color-text-muted);
-}
-
-.macro-bar__track {
-  height: 6px;
-  background: var(--color-border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-.macro-bar__fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.3s ease;
+  text-align: center;
 }
 
 /* =========================================================

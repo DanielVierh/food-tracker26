@@ -18,7 +18,10 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
 
   const [step, setStep] = useState<Step>("search");
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
-  const [meal, setMeal] = useState<MealCategory>("breakfast");
+  const [meal, setMeal] = useState<MealCategory>(
+    () =>
+      (localStorage.getItem("last-meal") as MealCategory | null) ?? "breakfast",
+  );
   const [amountG, setAmountG] = useState(100);
 
   async function handleBarcodeDetected(barcode: string) {
@@ -54,6 +57,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
 
   function handleConfirm() {
     if (!selectedFood?.id) return;
+    localStorage.setItem("last-meal", meal);
     onAdd(selectedFood.id, meal, amountG);
     onClose();
   }
