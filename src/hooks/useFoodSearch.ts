@@ -41,10 +41,9 @@ export function useFoodSearch() {
   async function search(q: string) {
     setIsLoading(true);
     try {
-      // 1. Local results
+      // 1. Local results — no limit, return everything from IndexedDB
       const local = await db.foods
         .filter((f) => f.name.toLowerCase().includes(q.toLowerCase()))
-        .limit(20)
         .toArray();
 
       setResults(local);
@@ -60,7 +59,6 @@ export function useFoodSearch() {
           // Re-query local DB so UI shows both cached + existing
           const updated = await db.foods
             .filter((f) => f.name.toLowerCase().includes(q.toLowerCase()))
-            .limit(20)
             .toArray();
 
           setResults(updated);
