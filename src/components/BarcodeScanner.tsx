@@ -30,6 +30,7 @@ export default function BarcodeScanner({
           controlsRef.current = controls;
           if (result && !detectedRef.current) {
             detectedRef.current = true;
+            controls.stop();
             onDetected(result.getText());
           }
           // Ignore continuous "not found" errors — they fire on every frame without a barcode
