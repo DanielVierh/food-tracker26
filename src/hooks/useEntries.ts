@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db/db";
 import { computeMacros } from "../utils/macros";
-import type { FoodEntry, EntryWithFood, MealCategory } from "../types";
+import type { EntryWithFood, MealCategory } from "../types";
 
 // ---------------------------------------------------------------------------
 // useEntries — live-queried entries for a given ISO date string ('YYYY-MM-DD')
@@ -27,8 +27,16 @@ export function useEntries(date: string) {
   const entries: EntryWithFood[] = rawEntries ?? [];
 
   async function addEntry(foodId: number, meal: MealCategory, amountG: number) {
-    const entry: FoodEntry = { foodId, date, meal, amountG };
-    await db.entries.add(entry);
+    // If an entry for the same food + meal + date already exists, accumulate the amount
+    const existing = await db.entries.where({ foodId, date, meal }).first();
+
+    if (existing?.id !== undefined) {
+      await db.entries.update(existing.id, {
+        amountG: existing.amountG + amountG,
+      });
+    } else {
+      await db.entries.add({ foodId, date, meal, amountG });
+    }
   }
 
   async function deleteEntry(id: number) {

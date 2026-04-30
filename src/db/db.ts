@@ -7,6 +7,7 @@ import type { Food, FoodEntry, Settings } from "../types";
 //
 // Version history:
 //   1 — initial schema
+//   2 — added compound index [foodId+date+meal] for duplicate-entry detection
 //
 // Upgrade strategy: add a new version() block; never mutate existing ones.
 // ---------------------------------------------------------------------------
@@ -23,6 +24,11 @@ class FoodTrackerDB extends Dexie {
       foods: "++id, name, barcode, source",
       entries: "++id, foodId, date, meal",
       settings: "id",
+    });
+
+    this.version(2).stores({
+      // Add compound index for duplicate-entry accumulation lookup
+      entries: "++id, foodId, date, meal, [foodId+date+meal]",
     });
   }
 }
