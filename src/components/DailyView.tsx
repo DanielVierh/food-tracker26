@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useEntries } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
 import { sumMacros } from "../utils/macros";
@@ -16,6 +16,16 @@ export default function DailyView() {
   const [date, setDate] = useState<string>(toISODate(new Date()));
   const [showModal, setShowModal] = useState(false);
   const [editEntry, setEditEntry] = useState<EntryWithFood | null>(null);
+  const [burnedKcal, setBurnedKcal] = useState<number>(() => {
+    const stored = localStorage.getItem(`burned-kcal-${date}`);
+    return stored ? Number(stored) : 0;
+  });
+
+  useEffect(() => {
+    const stored = localStorage.getItem(`burned-kcal-${date}`);
+    setBurnedKcal(stored ? Number(stored) : 0);
+  }, [date]);
+
   const { entries, addEntry, deleteEntry, updateEntry } = useEntries(date);
   const { settings } = useSettings();
 
@@ -31,6 +41,11 @@ export default function DailyView() {
 
   function handleSaveEdit(id: number, meal: MealCategory, amountG: number) {
     void updateEntry(id, meal, amountG);
+  }
+
+  function handleBurnedKcalChange(value: number) {
+    setBurnedKcal(value);
+    localStorage.setItem(`burned-kcal-${date}`, String(value));
   }
 
   function changeDate(offsetDays: number) {
@@ -56,7 +71,12 @@ export default function DailyView() {
         </button>
       </div>
 
-      <MacroSummary totals={totals} goals={settings} />
+      <MacroSummary
+        totals={totals}
+        goals={settings}
+        burnedKcal={burnedKcal}
+        onBurnedKcalChange={handleBurnedKcalChange}
+      />
 
       <EntryList
         entries={entries}
