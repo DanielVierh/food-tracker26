@@ -13,6 +13,9 @@ interface OffProduct {
     proteins_100g?: number;
     carbohydrates_100g?: number;
     fat_100g?: number;
+    fiber_100g?: number;
+    sugars_100g?: number;
+    salt_100g?: number;
   };
 }
 
@@ -32,6 +35,9 @@ function mapProductToFood(product: OffProduct): Food {
     protein: n["proteins_100g"] ?? 0,
     carbs: n["carbohydrates_100g"] ?? 0,
     fat: n["fat_100g"] ?? 0,
+    fiber: n["fiber_100g"] ?? 0,
+    sugar: n["sugars_100g"] ?? 0,
+    salt: n["salt_100g"] ?? 0,
     source: "openfoods",
   };
 }

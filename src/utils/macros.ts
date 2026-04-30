@@ -10,6 +10,9 @@ export function computeMacros(food: Food, amountG: number): Macros {
     protein: round(food.protein * factor),
     carbs: round(food.carbs * factor),
     fat: round(food.fat * factor),
+    fiber: round(food.fiber * factor),
+    sugar: round(food.sugar * factor),
+    salt: round(food.salt * factor),
   };
 }
 
@@ -23,8 +26,11 @@ export function sumMacros(macros: Macros[]): Macros {
       protein: round(acc.protein + m.protein),
       carbs: round(acc.carbs + m.carbs),
       fat: round(acc.fat + m.fat),
+      fiber: round(acc.fiber + m.fiber),
+      sugar: round(acc.sugar + m.sugar),
+      salt: round(acc.salt + m.salt),
     }),
-    { kcal: 0, protein: 0, carbs: 0, fat: 0 },
+    { kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, salt: 0 },
   );
 }
 

@@ -9,6 +9,9 @@ const GOAL_FIELDS: { key: GoalKey; label: string; unit: string }[] = [
   { key: "protein", label: "Protein", unit: "g" },
   { key: "carbs", label: "Kohlenhydrate", unit: "g" },
   { key: "fat", label: "Fett", unit: "g" },
+  { key: "fiber", label: "Ballaststoffe", unit: "g" },
+  { key: "sugar", label: "Zucker", unit: "g" },
+  { key: "salt", label: "Salz", unit: "g" },
 ];
 
 export default function SettingsView() {
@@ -19,6 +22,9 @@ export default function SettingsView() {
     protein: settings.protein,
     carbs: settings.carbs,
     fat: settings.fat,
+    fiber: settings.fiber,
+    sugar: settings.sugar,
+    salt: settings.salt,
   });
 
   function handleChange(key: GoalKey, value: number) {

@@ -26,6 +26,9 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   const [customProtein, setCustomProtein] = useState(0);
   const [customCarbs, setCustomCarbs] = useState(0);
   const [customFat, setCustomFat] = useState(0);
+  const [customFiber, setCustomFiber] = useState(0);
+  const [customSugar, setCustomSugar] = useState(0);
+  const [customSalt, setCustomSalt] = useState(0);
 
   function handleSelectFood(food: Food) {
     setSelectedFood(food);
@@ -46,6 +49,9 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
       protein: customProtein,
       carbs: customCarbs,
       fat: customFat,
+      fiber: customFiber,
+      sugar: customSugar,
+      salt: customSalt,
     });
     handleSelectFood(food);
   }
@@ -150,6 +156,36 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       onChange={(e) => setCustomFat(Number(e.target.value))}
                     />
                   </label>
+                  <label>
+                    Ballaststoffe g
+                    <input
+                      className="input"
+                      type="number"
+                      min={0}
+                      value={customFiber}
+                      onChange={(e) => setCustomFiber(Number(e.target.value))}
+                    />
+                  </label>
+                  <label>
+                    Zucker g
+                    <input
+                      className="input"
+                      type="number"
+                      min={0}
+                      value={customSugar}
+                      onChange={(e) => setCustomSugar(Number(e.target.value))}
+                    />
+                  </label>
+                  <label>
+                    Salz g
+                    <input
+                      className="input"
+                      type="number"
+                      min={0}
+                      value={customSalt}
+                      onChange={(e) => setCustomSalt(Number(e.target.value))}
+                    />
+                  </label>
                 </div>
                 <button
                   className="btn btn--primary"
@@ -168,7 +204,8 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
             <p className="modal__hint">
               Nährwerte pro 100 g: {selectedFood.kcal} kcal · P{" "}
               {selectedFood.protein}g · K {selectedFood.carbs}g · F{" "}
-              {selectedFood.fat}g
+              {selectedFood.fat}g · Bst {selectedFood.fiber}g · Zck{" "}
+              {selectedFood.sugar}g · Salz {selectedFood.salt}g
             </p>
 
             <label className="form-label">

@@ -16,6 +16,14 @@ const MACRO_CONFIG = [
     color: "#8b5cf6",
   },
   { key: "fat" as const, label: "Fett", unit: "g", color: "#ef4444" },
+  {
+    key: "fiber" as const,
+    label: "Ballaststoffe",
+    unit: "g",
+    color: "#22c55e",
+  },
+  { key: "sugar" as const, label: "Zucker", unit: "g", color: "#ec4899" },
+  { key: "salt" as const, label: "Salz", unit: "g", color: "#64748b" },
 ];
 
 export default function MacroSummary({ totals, goals }: MacroSummaryProps) {

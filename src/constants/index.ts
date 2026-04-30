@@ -26,6 +26,9 @@ export const DEFAULT_SETTINGS: Settings = {
   protein: 150,
   carbs: 200,
   fat: 65,
+  fiber: 30,
+  sugar: 50,
+  salt: 6,
 };
 
 // ---------------------------------------------------------------------------
