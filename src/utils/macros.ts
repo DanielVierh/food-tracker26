@@ -14,13 +14,13 @@ function s(v: number | null | undefined): number {
 export function computeMacros(food: Food, amountG: number): Macros {
   const factor = s(amountG) / 100;
   return {
-    kcal:    round(s(food.kcal)    * factor),
+    kcal: round(s(food.kcal) * factor),
     protein: round(s(food.protein) * factor),
-    carbs:   round(s(food.carbs)   * factor),
-    fat:     round(s(food.fat)     * factor),
-    fiber:   round(s(food.fiber)   * factor),
-    sugar:   round(s(food.sugar)   * factor),
-    salt:    round(s(food.salt)    * factor),
+    carbs: round(s(food.carbs) * factor),
+    fat: round(s(food.fat) * factor),
+    fiber: round(s(food.fiber) * factor),
+    sugar: round(s(food.sugar) * factor),
+    salt: round(s(food.salt) * factor),
   };
 }
 
