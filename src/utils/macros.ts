@@ -1,18 +1,26 @@
 import type { Food, Macros } from "../types";
 
 // ---------------------------------------------------------------------------
+// Sanitize a macro value: treat NaN, Infinity, null, undefined as 0
+// ---------------------------------------------------------------------------
+function s(v: number | null | undefined): number {
+  const n = Number(v);
+  return isFinite(n) ? n : 0;
+}
+
+// ---------------------------------------------------------------------------
 // Scale macros (per 100 g) to an actual amount in grams
 // ---------------------------------------------------------------------------
 export function computeMacros(food: Food, amountG: number): Macros {
-  const factor = amountG / 100;
+  const factor = s(amountG) / 100;
   return {
-    kcal: round(food.kcal * factor),
-    protein: round(food.protein * factor),
-    carbs: round(food.carbs * factor),
-    fat: round(food.fat * factor),
-    fiber: round(food.fiber * factor),
-    sugar: round(food.sugar * factor),
-    salt: round(food.salt * factor),
+    kcal:    round(s(food.kcal)    * factor),
+    protein: round(s(food.protein) * factor),
+    carbs:   round(s(food.carbs)   * factor),
+    fat:     round(s(food.fat)     * factor),
+    fiber:   round(s(food.fiber)   * factor),
+    sugar:   round(s(food.sugar)   * factor),
+    salt:    round(s(food.salt)    * factor),
   };
 }
 
@@ -43,8 +51,9 @@ export function progressPct(value: number, goal: number): number {
 }
 
 // ---------------------------------------------------------------------------
-// Internal helper — round to 1 decimal place
+// Internal helper — round to 1 decimal place, guard NaN
 // ---------------------------------------------------------------------------
 function round(n: number): number {
-  return Math.round(n * 10) / 10;
+  const v = Math.round(n * 10) / 10;
+  return isFinite(v) ? v : 0;
 }
