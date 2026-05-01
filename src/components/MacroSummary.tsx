@@ -9,22 +9,27 @@ interface MacroSummaryProps {
 }
 
 const MACRO_CONFIG = [
-  { key: "protein" as const, label: "Protein", unit: "g", color: "#3b82f6" },
+  {
+    key: "protein" as const,
+    label: "Protein",
+    unit: "g",
+    higherIsBetter: true,
+  },
   {
     key: "carbs" as const,
     label: "Kohlenhydrate",
     unit: "g",
-    color: "#8b5cf6",
+    higherIsBetter: false,
   },
-  { key: "fat" as const, label: "Fett", unit: "g", color: "#ef4444" },
+  { key: "fat" as const, label: "Fett", unit: "g", higherIsBetter: false },
   {
     key: "fiber" as const,
     label: "Ballaststoffe",
     unit: "g",
-    color: "#22c55e",
+    higherIsBetter: true,
   },
-  { key: "sugar" as const, label: "Zucker", unit: "g", color: "#ec4899" },
-  { key: "salt" as const, label: "Salz", unit: "g", color: "#64748b" },
+  { key: "sugar" as const, label: "Zucker", unit: "g", higherIsBetter: false },
+  { key: "salt" as const, label: "Salz", unit: "g", higherIsBetter: false },
 ];
 
 export default function MacroSummary({
@@ -51,7 +56,6 @@ export default function MacroSummary({
           value={consumed}
           goal={goals.kcal}
           unit="kcal"
-          color="#f59e0b"
         />
         <div className="kcal-stats">
           <div className="kcal-stat">
@@ -83,14 +87,14 @@ export default function MacroSummary({
         </div>
       </div>
       <div className="macro-summary">
-        {MACRO_CONFIG.map(({ key, label, unit, color }) => (
+        {MACRO_CONFIG.map(({ key, label, unit, higherIsBetter }) => (
           <MacroBar
             key={key}
             label={label}
             value={Math.round(totals[key] * 10) / 10}
             goal={goals[key]}
             unit={unit}
-            color={color}
+            higherIsBetter={higherIsBetter}
           />
         ))}
       </div>

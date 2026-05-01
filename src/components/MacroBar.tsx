@@ -5,22 +5,46 @@ interface MacroBarProps {
   value: number;
   goal: number;
   unit: string;
-  color: string;
+  higherIsBetter?: boolean;
 }
 
-const RADIUS = 42;
-const STROKE = 8;
+const RADIUS = 35;
+const STROKE = 10;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SIZE = (RADIUS + STROKE) * 2;
+
+function lerp(a: number, b: number, t: number): number {
+  return a + (b - a) * Math.max(0, Math.min(1, t));
+}
+
+function trafficLightColor(ratio: number, higherIsBetter: boolean): string {
+  let t: number;
+  if (higherIsBetter) {
+    if (ratio >= 1.0) t = 1;
+    else if (ratio >= 0.7) t = lerp(0.5, 1, (ratio - 0.7) / 0.3);
+    else if (ratio >= 0.4) t = lerp(0, 0.5, (ratio - 0.4) / 0.3);
+    else t = 0;
+  } else {
+    if (ratio <= 0.7) t = 1;
+    else if (ratio <= 1.0) t = lerp(0.5, 1, (1.0 - ratio) / 0.3);
+    else if (ratio <= 1.3) t = lerp(0, 0.5, (1.3 - ratio) / 0.3);
+    else t = 0;
+  }
+  const hue = t < 0.5 ? lerp(0, 45, t * 2) : lerp(45, 130, (t - 0.5) * 2);
+  return `hsl(${Math.round(hue)}, 80%, 50%)`;
+}
 
 export default function MacroBar({
   label,
   value,
   goal,
   unit,
-  color,
+  higherIsBetter = false,
 }: MacroBarProps) {
-  const pct = goal > 0 ? Math.min(1, value / goal) : 0;
+  const ratio = goal > 0 ? value / goal : 0;
+  const pct = Math.min(1, ratio);
+  const color = trafficLightColor(ratio, higherIsBetter);
+
   const dash = pct * CIRCUMFERENCE;
   const gap = CIRCUMFERENCE - dash;
 
