@@ -109,7 +109,7 @@ export default function MacroBar({
         {label}
       </span>
       <span className="macro-ring__goal">
-        Ziel: {goal} {unit}
+        Ziel: {goal} {unit}
       </span>
     </div>
   );
