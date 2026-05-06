@@ -15,20 +15,20 @@ const MACRO_CONFIG = [
     unit: "g",
     higherIsBetter: true,
   },
+  { key: "fat" as const, label: "Fett", unit: "g", higherIsBetter: false },
   {
     key: "carbs" as const,
     label: "Kohlenhydrate",
     unit: "g",
     higherIsBetter: false,
   },
-  { key: "fat" as const, label: "Fett", unit: "g", higherIsBetter: false },
+  { key: "sugar" as const, label: "Zucker", unit: "g", higherIsBetter: false },
   {
     key: "fiber" as const,
     label: "Ballaststoffe",
     unit: "g",
     higherIsBetter: true,
   },
-  { key: "sugar" as const, label: "Zucker", unit: "g", higherIsBetter: false },
   { key: "salt" as const, label: "Salz", unit: "g", higherIsBetter: false },
 ];
 
