@@ -4,14 +4,19 @@ import type { Settings } from "../types";
 
 type GoalKey = keyof Omit<Settings, "id">;
 
-const GOAL_FIELDS: { key: GoalKey; label: string; unit: string }[] = [
-  { key: "kcal", label: "Tagesziel Kalorien", unit: "kcal" },
-  { key: "protein", label: "Protein", unit: "g" },
-  { key: "carbs", label: "Kohlenhydrate", unit: "g" },
-  { key: "fat", label: "Fett", unit: "g" },
-  { key: "fiber", label: "Ballaststoffe", unit: "g" },
-  { key: "sugar", label: "Zucker", unit: "g" },
-  { key: "salt", label: "Salz", unit: "g" },
+const GOAL_FIELDS: {
+  key: GoalKey;
+  label: string;
+  unit: string;
+  minmax: string;
+}[] = [
+  { key: "kcal", label: "Tagesziel Kalorien", unit: "kcal", minmax: "max." },
+  { key: "protein", label: "Protein", unit: "g", minmax: "min." },
+  { key: "carbs", label: "Kohlenhydrate", unit: "g", minmax: "max." },
+  { key: "fat", label: "Fett", unit: "g", minmax: "max." },
+  { key: "fiber", label: "Ballaststoffe", unit: "g", minmax: "min." },
+  { key: "sugar", label: "Zucker", unit: "g", minmax: "max." },
+  { key: "salt", label: "Salz", unit: "g", minmax: "max." },
 ];
 
 export default function SettingsView() {
@@ -41,9 +46,9 @@ export default function SettingsView() {
     <div className="view">
       <h2 className="view__title">Tagesziele</h2>
 
-      {GOAL_FIELDS.map(({ key, label, unit }) => (
+      {GOAL_FIELDS.map(({ key, label, unit, minmax }) => (
         <label key={key} className="form-label">
-          {label} ({unit})
+          {minmax} {label} ({unit})
           <input
             className="input"
             type="number"
