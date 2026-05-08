@@ -276,6 +276,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                 min={1}
                 value={amountG}
                 onChange={(e) => setAmountG(Number(e.target.value))}
+                autoFocus
               />
             </label>
 
