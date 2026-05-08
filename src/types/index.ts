@@ -59,9 +59,34 @@ export interface EntryWithFood extends FoodEntry {
 // ---------------------------------------------------------------------------
 // Settings — singleton row (id always 1)
 // ---------------------------------------------------------------------------
+export type ActivityLevel = "sedentary" | "light" | "moderate" | "active";
+
 export interface Settings extends Macros {
   /** Always 1 — enforces singleton pattern in Dexie */
   id: 1;
+  // Body profile for TDEE calculation
+  age?: number;
+  gender?: "male" | "female";
+  /** Body height in cm */
+  height?: number;
+  /** Target body weight in kg */
+  targetWeight?: number;
+  activityLevel?: ActivityLevel;
+}
+
+// ---------------------------------------------------------------------------
+// BodyMetric — one measurement entry per day
+// ---------------------------------------------------------------------------
+export interface BodyMetric {
+  id?: number;
+  /** ISO date string: 'YYYY-MM-DD' */
+  date: string;
+  /** Body weight in kg */
+  weight: number;
+  /** Body fat percentage (optional) */
+  bodyFat?: number;
+  /** Muscle mass percentage (optional) */
+  muscleMass?: number;
 }
 
 // ---------------------------------------------------------------------------

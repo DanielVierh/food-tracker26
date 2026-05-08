@@ -29,6 +29,11 @@ export const DEFAULT_SETTINGS: Settings = {
   fiber: 30,
   sugar: 50,
   salt: 6,
+  age: undefined,
+  gender: undefined,
+  height: undefined,
+  targetWeight: undefined,
+  activityLevel: undefined,
 };
 
 // ---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import type { Food, Macros } from "../types";
+import type { Food, Macros, ActivityLevel } from "../types";
 
 // ---------------------------------------------------------------------------
 // Sanitize a macro value: treat NaN, Infinity, null, undefined as 0
@@ -56,4 +56,51 @@ export function progressPct(value: number, goal: number): number {
 function round(n: number): number {
   const v = Math.round(n * 10) / 10;
   return isFinite(v) ? v : 0;
+}
+
+// ---------------------------------------------------------------------------
+// PAL (Physical Activity Level) multipliers for TDEE calculation
+// ---------------------------------------------------------------------------
+export const PAL_FACTORS: Record<ActivityLevel, number> = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+};
+
+// ---------------------------------------------------------------------------
+// BMR — Mifflin-St Jeor formula
+// weight in kg, height in cm, age in years
+// ---------------------------------------------------------------------------
+export function calcBMR(
+  weight: number,
+  height: number,
+  age: number,
+  gender: "male" | "female",
+): number {
+  const base = 10 * weight + 6.25 * height - 5 * age;
+  return gender === "male" ? base + 5 : base - 161;
+}
+
+// ---------------------------------------------------------------------------
+// Target kcal — TDEE minus a safe deficit based on distance to goal weight
+// Max deficit: 500 kcal/day (below this, muscle loss risk increases)
+// Minimum floor: 1200 kcal (hard lower bound)
+// ---------------------------------------------------------------------------
+export function calcTargetKcal(
+  weight: number,
+  height: number,
+  age: number,
+  gender: "male" | "female",
+  activityLevel: ActivityLevel,
+  targetWeight: number,
+): number {
+  const bmr = calcBMR(weight, height, age, gender);
+  const tdee = Math.round(bmr * PAL_FACTORS[activityLevel]);
+  const diff = weight - targetWeight;
+  let deficit = 0;
+  if (diff >= 8) deficit = 500;
+  else if (diff >= 3) deficit = 350;
+  else if (diff > 0) deficit = 200;
+  return Math.max(1200, tdee - deficit);
 }
