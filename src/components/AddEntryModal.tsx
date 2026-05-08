@@ -182,13 +182,14 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                     />
                   </label>
                   <label>
-                    Protein g
+                    Fett g
                     <input
                       className="input"
                       type="number"
                       min={0}
-                      value={customProtein}
-                      onChange={(e) => setCustomProtein(Number(e.target.value))}
+                      step="any"
+                      value={customFat}
+                      onChange={(e) => setCustomFat(Number(e.target.value))}
                     />
                   </label>
                   <label>
@@ -197,28 +198,9 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       className="input"
                       type="number"
                       min={0}
+                      step="any"
                       value={customCarbs}
                       onChange={(e) => setCustomCarbs(Number(e.target.value))}
-                    />
-                  </label>
-                  <label>
-                    Fett g
-                    <input
-                      className="input"
-                      type="number"
-                      min={0}
-                      value={customFat}
-                      onChange={(e) => setCustomFat(Number(e.target.value))}
-                    />
-                  </label>
-                  <label>
-                    Ballaststoffe g
-                    <input
-                      className="input"
-                      type="number"
-                      min={0}
-                      value={customFiber}
-                      onChange={(e) => setCustomFiber(Number(e.target.value))}
                     />
                   </label>
                   <label>
@@ -227,8 +209,31 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       className="input"
                       type="number"
                       min={0}
+                      step="any"
                       value={customSugar}
                       onChange={(e) => setCustomSugar(Number(e.target.value))}
+                    />
+                  </label>
+                  <label>
+                    Ballaststoffe g
+                    <input
+                      className="input"
+                      type="number"
+                      min={0}
+                      step="any"
+                      value={customFiber}
+                      onChange={(e) => setCustomFiber(Number(e.target.value))}
+                    />
+                  </label>
+                  <label>
+                    Protein g
+                    <input
+                      className="input"
+                      type="number"
+                      min={0}
+                      step="any"
+                      value={customProtein}
+                      onChange={(e) => setCustomProtein(Number(e.target.value))}
                     />
                   </label>
                   <label>
@@ -237,6 +242,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       className="input"
                       type="number"
                       min={0}
+                      step="any"
                       value={customSalt}
                       onChange={(e) => setCustomSalt(Number(e.target.value))}
                     />
