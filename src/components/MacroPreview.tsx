@@ -8,22 +8,22 @@ interface MacroPreviewProps {
 }
 
 const MACRO_CHIPS = [
-  { key: "kcal" as const, label: "Kalorien", unit: "kcal", color: "#f59e0b" },
-  { key: "protein" as const, label: "Protein", unit: "g", color: "#3b82f6" },
+  { key: "kcal" as const, label: "Kalorien", unit: "kcal", color: "#64748b" },
+  { key: "fat" as const, label: "Fett", unit: "g", color: "#64748b" },
   {
     key: "carbs" as const,
     label: "Kohlenhydrate",
     unit: "g",
-    color: "#8b5cf6",
+    color: "#ec4848",
   },
-  { key: "fat" as const, label: "Fett", unit: "g", color: "#ef4444" },
+  { key: "sugar" as const, label: "Zucker", unit: "g", color: "#ec4848" },
   {
     key: "fiber" as const,
     label: "Ballaststoffe",
     unit: "g",
-    color: "#22c55e",
+    color: "#64748b",
   },
-  { key: "sugar" as const, label: "Zucker", unit: "g", color: "#ec4899" },
+  { key: "protein" as const, label: "Protein", unit: "g", color: "#64748b" },
   { key: "salt" as const, label: "Salz", unit: "g", color: "#64748b" },
 ];
 
