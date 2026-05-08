@@ -103,7 +103,8 @@ export default function SettingsView() {
 
   // Live-Berechnung des Kcal-Ziels aus Profil + Gewicht
   const calculatedKcal = useMemo(() => {
-    const { age, gender, height, targetWeight, activityLevel, goalMonths } = profile;
+    const { age, gender, height, targetWeight, activityLevel, goalMonths } =
+      profile;
     const weight = metric.weight;
     if (!age || !height || !targetWeight || !weight || !goalMonths) return null;
     return calcTargetKcal(

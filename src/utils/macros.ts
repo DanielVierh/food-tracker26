@@ -100,6 +100,9 @@ export function calcTargetKcal(
   const tdee = Math.round(bmr * PAL_FACTORS[activityLevel]);
   const diff = weight - targetWeight;
   if (diff <= 0) return tdee;
-  const dailyDeficit = Math.min(1000, Math.round((diff * 7700) / (goalMonths * 30)));
+  const dailyDeficit = Math.min(
+    1000,
+    Math.round((diff * 7700) / (goalMonths * 30)),
+  );
   return Math.max(1200, tdee - dailyDeficit);
 }
