@@ -1,8 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { readFileSync } from "fs";
+
+const { version } = JSON.parse(readFileSync("./package.json", "utf-8")) as {
+  version: string;
+};
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(version),
+  },
   server: {
     proxy: {
       // In dev, proxy /api/off → OFF to bypass CORS
@@ -13,7 +21,8 @@ export default defineConfig({
         // OFF requires a User-Agent to avoid 503 blocks.
         // Browsers cannot set this header themselves, so the proxy sets it.
         headers: {
-          "User-Agent": "FoodTracker/1.0 (https://github.com/food-tracker26; educational project)",
+          "User-Agent":
+            "FoodTracker/1.0 (https://github.com/food-tracker26; educational project)",
         },
       },
     },

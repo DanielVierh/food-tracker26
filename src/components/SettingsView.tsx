@@ -64,6 +64,8 @@ export default function SettingsView() {
       </button>
 
       {saved && <p className="settings__saved">Gespeichert ✓</p>}
+
+      <p className="settings__version">Version {__APP_VERSION__}</p>
     </div>
   );
 }
