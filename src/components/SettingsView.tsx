@@ -47,6 +47,7 @@ export default function SettingsView() {
     height: number;
     targetWeight: number;
     activityLevel: ActivityLevel;
+    goalMonths: number;
   };
   const [profileDraft, setProfileDraft] = useState<ProfileDraft | null>(null);
   const [profileSaved, setProfileSaved] = useState(false);
@@ -59,6 +60,7 @@ export default function SettingsView() {
         height: settings.height ?? 0,
         targetWeight: settings.targetWeight ?? 0,
         activityLevel: settings.activityLevel ?? "moderate",
+        goalMonths: settings.goalMonths ?? 3,
       },
     [profileDraft, settings],
   );
@@ -101,9 +103,9 @@ export default function SettingsView() {
 
   // Live-Berechnung des Kcal-Ziels aus Profil + Gewicht
   const calculatedKcal = useMemo(() => {
-    const { age, gender, height, targetWeight, activityLevel } = profile;
+    const { age, gender, height, targetWeight, activityLevel, goalMonths } = profile;
     const weight = metric.weight;
-    if (!age || !height || !targetWeight || !weight) return null;
+    if (!age || !height || !targetWeight || !weight || !goalMonths) return null;
     return calcTargetKcal(
       weight,
       height,
@@ -111,6 +113,7 @@ export default function SettingsView() {
       gender,
       activityLevel,
       targetWeight,
+      goalMonths,
     );
   }, [profile, metric.weight]);
 
@@ -121,6 +124,7 @@ export default function SettingsView() {
       height: profile.height || undefined,
       targetWeight: profile.targetWeight || undefined,
       activityLevel: profile.activityLevel,
+      goalMonths: profile.goalMonths || undefined,
     });
     setProfileSaved(true);
   }
@@ -219,6 +223,24 @@ export default function SettingsView() {
                 setProfileDraft((p) => ({
                   ...(p ?? profile),
                   targetWeight: Number(e.target.value),
+                }));
+                setProfileSaved(false);
+              }}
+            />
+          </label>
+
+          <label className="form-label">
+            Zieldauer (Monate)
+            <input
+              className="input"
+              type="number"
+              min={1}
+              max={36}
+              value={profile.goalMonths || ""}
+              onChange={(e) => {
+                setProfileDraft((p) => ({
+                  ...(p ?? profile),
+                  goalMonths: Number(e.target.value),
                 }));
                 setProfileSaved(false);
               }}

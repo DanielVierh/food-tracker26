@@ -83,9 +83,9 @@ export function calcBMR(
 }
 
 // ---------------------------------------------------------------------------
-// Target kcal — TDEE minus a safe deficit based on distance to goal weight
-// Max deficit: 500 kcal/day (below this, muscle loss risk increases)
-// Minimum floor: 1200 kcal (hard lower bound)
+// Target kcal — TDEE minus a time-based deficit:
+//   deficit = (diff_kg × 7700 kcal) / (goalMonths × 30 days)
+//   capped at 1000 kcal/day, floor 1200 kcal
 // ---------------------------------------------------------------------------
 export function calcTargetKcal(
   weight: number,
@@ -94,13 +94,12 @@ export function calcTargetKcal(
   gender: "male" | "female",
   activityLevel: ActivityLevel,
   targetWeight: number,
+  goalMonths: number,
 ): number {
   const bmr = calcBMR(weight, height, age, gender);
   const tdee = Math.round(bmr * PAL_FACTORS[activityLevel]);
   const diff = weight - targetWeight;
-  let deficit = 0;
-  if (diff >= 8) deficit = 500;
-  else if (diff >= 3) deficit = 350;
-  else if (diff > 0) deficit = 200;
-  return Math.max(1200, tdee - deficit);
+  if (diff <= 0) return tdee;
+  const dailyDeficit = Math.min(1000, Math.round((diff * 7700) / (goalMonths * 30)));
+  return Math.max(1200, tdee - dailyDeficit);
 }

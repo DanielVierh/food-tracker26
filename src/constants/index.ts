@@ -34,6 +34,7 @@ export const DEFAULT_SETTINGS: Settings = {
   height: undefined,
   targetWeight: undefined,
   activityLevel: undefined,
+  goalMonths: undefined,
 };
 
 // ---------------------------------------------------------------------------

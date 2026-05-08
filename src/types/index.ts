@@ -72,6 +72,8 @@ export interface Settings extends Macros {
   /** Target body weight in kg */
   targetWeight?: number;
   activityLevel?: ActivityLevel;
+  /** Months to reach target weight — used for deficit calculation */
+  goalMonths?: number;
 }
 
 // ---------------------------------------------------------------------------
