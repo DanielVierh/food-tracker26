@@ -55,6 +55,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   const [customFiber, setCustomFiber] = useState(0);
   const [customSugar, setCustomSugar] = useState(0);
   const [customSalt, setCustomSalt] = useState(0);
+  const [customAmount, setCustomAmount] = useState("");
 
   function handleSelectFood(food: Food) {
     setSelectedFood(food);
@@ -79,6 +80,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
       fiber: customFiber,
       sugar: customSugar,
       salt: customSalt,
+      quantityUnit: customAmount,
     });
     handleSelectFood(food);
   }
@@ -237,6 +239,15 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       value={customSalt}
                       onChange={(e) => setCustomSalt(Number(e.target.value))}
+                    />
+                  </label>
+                  <label>
+                    Mengenangaben in g
+                    <input
+                      className="input"
+                      type="text"
+                      value={customAmount}
+                      onChange={(e) => setCustomAmount(e.target.value)}
                     />
                   </label>
                 </div>
