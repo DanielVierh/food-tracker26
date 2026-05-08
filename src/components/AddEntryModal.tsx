@@ -151,7 +151,11 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
 
             <button
               className="btn btn--ghost"
-              onClick={() => setShowCustomForm((v) => !v)}
+              onClick={() => {
+                const next = !showCustomForm;
+                setShowCustomForm(next);
+                if (next) setCustomName(query);
+              }}
             >
               {showCustomForm ? "Abbrechen" : "+ Eigenes Lebensmittel anlegen"}
             </button>
