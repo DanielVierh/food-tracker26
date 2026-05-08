@@ -1,5 +1,8 @@
 import type { EntryWithFood, MealCategory } from "../types";
 import { MEAL_CATEGORIES, MEAL_CATEGORY_ORDER } from "../constants";
+import { sumMacros } from "../utils/macros";
+import { useSettings } from "../hooks/useSettings";
+import MacroSummary from "./MacroSummary";
 import EntryCard from "./EntryCard";
 
 interface EntryListProps {
@@ -13,6 +16,7 @@ export default function EntryList({
   onEdit,
   onDelete,
 }: EntryListProps) {
+  const { settings } = useSettings();
   const grouped = MEAL_CATEGORY_ORDER.reduce<
     Record<MealCategory, EntryWithFood[]>
   >(
@@ -34,6 +38,11 @@ export default function EntryList({
             <h3 className="entry-list__meal-heading">
               {MEAL_CATEGORIES[meal]}
             </h3>
+            <MacroSummary
+              totals={sumMacros(group.map((e) => e.computed))}
+              goals={settings}
+              variant="compact"
+            />
             {group.map((entry) => (
               <EntryCard
                 key={entry.id}

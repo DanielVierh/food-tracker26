@@ -6,12 +6,13 @@ interface MacroBarProps {
   goal: number;
   unit: string;
   higherIsBetter?: boolean;
+  size?: "md" | "sm";
 }
 
-const RADIUS = 35;
-const STROKE = 10;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const SIZE = (RADIUS + STROKE) * 2;
+const CONFIGS = {
+  md: { radius: 35, stroke: 10 },
+  sm: { radius: 20, stroke: 6 },
+};
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * Math.max(0, Math.min(1, t));
@@ -40,7 +41,11 @@ export default function MacroBar({
   goal,
   unit,
   higherIsBetter = false,
+  size = "md",
 }: MacroBarProps) {
+  const { radius: RADIUS, stroke: STROKE } = CONFIGS[size];
+  const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+  const SIZE = (RADIUS + STROKE) * 2;
   const ratio = goal > 0 ? value / goal : 0;
   const pct = Math.min(1, ratio);
   const color = trafficLightColor(ratio, higherIsBetter);
@@ -92,6 +97,7 @@ export default function MacroBar({
           dominantBaseline="middle"
           textAnchor="middle"
           className="macro-ring__value-text"
+          style={size === "sm" ? { fontSize: 8 } : undefined}
         >
           {displayValue}
         </text>
@@ -101,6 +107,7 @@ export default function MacroBar({
           dominantBaseline="middle"
           textAnchor="middle"
           className="macro-ring__unit-text"
+          style={size === "sm" ? { fontSize: 7 } : undefined}
         >
           {unit}
         </text>
