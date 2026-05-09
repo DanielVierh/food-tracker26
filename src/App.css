@@ -126,6 +126,13 @@ ul {
 .date-nav__input {
   flex: 1;
 }
+.date-nav__weekday {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  min-width: 1.5rem;
+  text-align: center;
+}
 
 /* =========================================================
    Buttons

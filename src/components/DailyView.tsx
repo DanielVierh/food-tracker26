@@ -131,12 +131,17 @@ export default function DailyView() {
     setDate(toISODate(d));
   }
 
+  const weekdayShort = new Date(date + "T00:00:00")
+    .toLocaleDateString("de-DE", { weekday: "short" })
+    .slice(0, 2);
+
   return (
     <div className="view">
       <div className="date-nav">
         <button className="btn btn--ghost" onClick={() => changeDate(-1)}>
           ←
         </button>
+        <span className="date-nav__weekday">{weekdayShort}</span>
         <input
           className="input date-nav__input"
           type="date"
