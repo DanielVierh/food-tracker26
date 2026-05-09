@@ -90,12 +90,12 @@ export default function MacroSummary({
   variant = "full",
 }: MacroSummaryProps) {
   const consumed = Math.round(totals.kcal);
-  const balance = consumed - burnedKcal;
+  const balance = Math.round(goals.kcal) - consumed + burnedKcal;
   const balanceSign = balance > 0 ? "+" : "";
   const balanceClass =
-    balance > 0
+    balance < 0
       ? "kcal-stat--surplus"
-      : balance < 0
+      : balance > 0
         ? "kcal-stat--deficit"
         : "";
 
