@@ -6,6 +6,8 @@ interface MacroSummaryProps {
   goals: Macros;
   burnedKcal?: number;
   onBurnedKcalChange?: (v: number) => void;
+  steps?: number;
+  onStepsChange?: (v: number) => void;
   variant?: "full" | "compact";
 }
 
@@ -83,6 +85,8 @@ export default function MacroSummary({
   goals,
   burnedKcal = 0,
   onBurnedKcalChange,
+  steps = 0,
+  onStepsChange,
   variant = "full",
 }: MacroSummaryProps) {
   const consumed = Math.round(totals.kcal);
@@ -106,6 +110,22 @@ export default function MacroSummary({
             unit="kcal"
           />
           <div className="kcal-stats">
+            <div className="kcal-stat">
+              <span className="kcal-stat__label">👟 Schritte</span>
+              <div className="kcal-stat__input-row">
+                <input
+                  className="input kcal-stat__input"
+                  type="number"
+                  min={0}
+                  step={100}
+                  value={steps}
+                  readOnly={!onStepsChange}
+                  onChange={(e) =>
+                    onStepsChange?.(Math.max(0, Number(e.target.value)))
+                  }
+                />
+              </div>
+            </div>
             <div className="kcal-stat">
               <span className="kcal-stat__label">🔥 Verbrannt</span>
               <div className="kcal-stat__input-row">

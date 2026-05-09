@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useEntries } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
+import { useBodyMetrics } from "../hooks/useBodyMetrics";
 import { sumMacros } from "../utils/macros";
 import MacroSummary from "./MacroSummary";
 import EntryList from "./EntryList";
@@ -36,15 +37,36 @@ export default function DailyView() {
   const [editEntry, setEditEntry] = useState<EntryWithFood | null>(null);
   const [toastMsg, setToastMsg] = useState("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [burnedKcal, setBurnedKcal] = useState<number>(() => {
-    const stored = localStorage.getItem(`burned-kcal-${date}`);
-    return stored ? Number(stored) : 0;
+  const [burnedKcalState, setBurnedKcalState] = useState<{
+    date: string;
+    value: number;
+  }>(() => {
+    const d = toISODate(new Date());
+    return {
+      date: d,
+      value: Number(localStorage.getItem(`burned-kcal-${d}`) ?? "0"),
+    };
+  });
+  const [stepsState, setStepsState] = useState<{
+    date: string;
+    value: number;
+  }>(() => {
+    const d = toISODate(new Date());
+    return {
+      date: d,
+      value: Number(localStorage.getItem(`steps-${d}`) ?? "0"),
+    };
   });
 
-  useEffect(() => {
-    const stored = localStorage.getItem(`burned-kcal-${date}`);
-    setBurnedKcal(stored ? Number(stored) : 0);
-  }, [date]);
+  // Derive effective values: if state is for a different date, read from localStorage
+  const burnedKcal =
+    burnedKcalState.date === date
+      ? burnedKcalState.value
+      : Number(localStorage.getItem(`burned-kcal-${date}`) ?? "0");
+  const steps =
+    stepsState.date === date
+      ? stepsState.value
+      : Number(localStorage.getItem(`steps-${date}`) ?? "0");
 
   // Automatically advance to the next day at midnight
   useEffect(() => {
@@ -56,6 +78,7 @@ export default function DailyView() {
 
   const { entries, addEntry, deleteEntry, updateEntry } = useEntries(date);
   const { settings } = useSettings();
+  const { todayMetric } = useBodyMetrics();
 
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
 
@@ -85,8 +108,21 @@ export default function DailyView() {
   }
 
   function handleBurnedKcalChange(value: number) {
-    setBurnedKcal(value);
+    setBurnedKcalState({ date, value });
     localStorage.setItem(`burned-kcal-${date}`, String(value));
+  }
+
+  function handleStepsChange(value: number) {
+    setStepsState({ date, value });
+    localStorage.setItem(`steps-${date}`, String(value));
+    const weight = todayMetric?.weight ?? 0;
+    if (weight > 0) {
+      const kcalFromSteps = Math.floor((value * 6.5 * weight) / 10000);
+      if (kcalFromSteps > burnedKcal) {
+        setBurnedKcalState({ date, value: kcalFromSteps });
+        localStorage.setItem(`burned-kcal-${date}`, String(kcalFromSteps));
+      }
+    }
   }
 
   function changeDate(offsetDays: number) {
@@ -117,6 +153,8 @@ export default function DailyView() {
         goals={settings}
         burnedKcal={burnedKcal}
         onBurnedKcalChange={handleBurnedKcalChange}
+        steps={steps}
+        onStepsChange={handleStepsChange}
       />
 
       <EntryList
