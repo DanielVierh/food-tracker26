@@ -62,7 +62,7 @@ export default function DailyView() {
   function showToast(msg: string) {
     setToastMsg(msg);
     if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToastMsg(""), 2500);
+    toastTimer.current = setTimeout(() => setToastMsg(""), 4500);
   }
 
   function handleAdd(

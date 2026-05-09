@@ -179,22 +179,22 @@ ul {
    ========================================================= */
 .toast {
   position: fixed;
-  bottom: 5rem;
+  bottom: 10rem;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-primary);
+  background: rgb(26, 90, 125);
   color: #fff;
   font-size: 0.9rem;
   font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border-radius: 2rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
   z-index: 100;
-  white-space: nowrap;
   animation: toast-in 0.2s ease;
   pointer-events: none;
   width: 80%;
   height: auto;
+  hyphens: auto;
 }
 
 @keyframes toast-in {
