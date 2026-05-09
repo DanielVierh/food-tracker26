@@ -144,7 +144,7 @@ export default function MacroSummary({
                 key={key}
                 label={label}
                 value={isKcal ? consumed : Math.round(totals[key] * 10) / 10}
-                goal={goals[key]}
+                goal={goals[key] / 4}
                 unit={unit}
                 higherIsBetter={higherIsBetter}
                 size="sm"
