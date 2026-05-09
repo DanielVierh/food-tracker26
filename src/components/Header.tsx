@@ -9,6 +9,7 @@ interface HeaderProps {
 const NAV_ITEMS: { view: View; label: string | ReactNode }[] = [
   { view: "daily", label: "Heute" },
   { view: "history", label: "Verlauf" },
+  { view: "foods", label: "🗄️" },
   {
     view: "settings",
     label: (

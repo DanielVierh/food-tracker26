@@ -654,6 +654,44 @@ ul {
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
+.food-list__badge {
+  font-size: 0.7rem;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+}
+.food-list__item--manage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  gap: 0.5rem;
+}
+.food-list__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+.food-list__actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  align-items: center;
+}
+.btn--danger {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
 
 /* =========================================================
    Custom food form

@@ -94,4 +94,4 @@ export interface BodyMetric {
 // ---------------------------------------------------------------------------
 // View — top-level navigation state (replaces a router)
 // ---------------------------------------------------------------------------
-export type View = "daily" | "history" | "settings";
+export type View = "daily" | "history" | "foods" | "settings";

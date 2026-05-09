@@ -5,11 +5,13 @@ import Header from "./components/Header";
 import DailyView from "./components/DailyView";
 import HistoryView from "./components/HistoryView";
 import SettingsView from "./components/SettingsView";
+import FoodDatabaseView from "./components/FoodDatabaseView";
 import type { View } from "./types";
 
 const VIEW_MAP: Record<View, ReactElement> = {
   daily: <DailyView />,
   history: <HistoryView />,
+  foods: <FoodDatabaseView />,
   settings: <SettingsView />,
 };
 
