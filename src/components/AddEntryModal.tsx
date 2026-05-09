@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useFoodSearch } from "../hooks/useFoodSearch";
 import { lookupBarcode } from "../services/barcodeService";
+import { db } from "../db/db";
 import BarcodeScanner from "./BarcodeScanner";
 import MacroPreview from "./MacroPreview";
 import { MEAL_CATEGORIES, MEAL_CATEGORY_ORDER } from "../constants";
@@ -59,7 +60,17 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
 
   function handleSelectFood(food: Food) {
     setSelectedFood(food);
+    setSavedToCustom(false);
     setStep("amount");
+  }
+
+  const [savedToCustom, setSavedToCustom] = useState(false);
+
+  async function handleSaveAsCustom() {
+    if (!selectedFood?.id) return;
+    await db.foods.update(selectedFood.id, { source: "custom" });
+    setSelectedFood({ ...selectedFood, source: "custom" });
+    setSavedToCustom(true);
   }
 
   function handleConfirm() {
@@ -308,6 +319,18 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
               >
                 ← Zurück
               </button>
+              {selectedFood.source === "openfoods" && !savedToCustom && (
+                <button
+                  className="btn btn--ghost"
+                  onClick={() => void handleSaveAsCustom()}
+                  title="In eigene Datenbank speichern"
+                >
+                  💾 Speichern
+                </button>
+              )}
+              {savedToCustom && (
+                <span className="settings__saved">Gespeichert ✓</span>
+              )}
               <button className="btn btn--primary" onClick={handleConfirm}>
                 Hinzufügen
               </button>
