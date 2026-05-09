@@ -27,11 +27,8 @@ export default function FoodDatabaseView() {
   const foods =
     useLiveQuery<Food[]>(() => {
       const q = search.trim().toLowerCase();
-      if (q.length < 1)
-        return db.foods.orderBy("name").toArray();
-      return db.foods
-        .filter((f) => f.name.toLowerCase().includes(q))
-        .toArray();
+      if (q.length < 1) return db.foods.orderBy("name").toArray();
+      return db.foods.filter((f) => f.name.toLowerCase().includes(q)).toArray();
     }, [search]) ?? [];
 
   function startEdit(food: Food) {
@@ -89,7 +86,8 @@ export default function FoodDatabaseView() {
           onChange={(e) =>
             setDraft((d) => ({
               ...d,
-              [key]: type === "number" ? Number(e.target.value) : e.target.value,
+              [key]:
+                type === "number" ? Number(e.target.value) : e.target.value,
             }))
           }
         />
