@@ -36,7 +36,10 @@ const today = new Date().toISOString().split("T")[0];
 
 export default function SettingsView() {
   const { settings, updateSettings } = useSettings();
-  const { metrics, todayMetric, addOrUpdateMetric } = useBodyMetrics();
+  const { metrics, todayMetric, latestMetric, addOrUpdateMetric } =
+    useBodyMetrics();
+  // Fallback: letzter bekannter Eintrag wenn für heute noch keiner existiert
+  const effectiveMetric = todayMetric ?? latestMetric;
 
   // Draft = null means "not yet edited by user" → fall back to live DB values.
   // This avoids useEffect+setState for initializing form from async data.
@@ -72,11 +75,11 @@ export default function SettingsView() {
   const metric: MetricDraft = useMemo(
     () =>
       metricDraft ?? {
-        weight: todayMetric?.weight ?? 0,
-        bodyFat: todayMetric?.bodyFat ?? 0,
-        muscleMass: todayMetric?.muscleMass ?? 0,
+        weight: effectiveMetric?.weight ?? 0,
+        bodyFat: effectiveMetric?.bodyFat ?? 0,
+        muscleMass: effectiveMetric?.muscleMass ?? 0,
       },
-    [metricDraft, todayMetric],
+    [metricDraft, effectiveMetric],
   );
 
   // --- Section D: Manuelle Ziele ---

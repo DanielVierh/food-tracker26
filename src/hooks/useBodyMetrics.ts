@@ -11,6 +11,9 @@ export function useBodyMetrics() {
 
   const today = new Date().toISOString().split("T")[0];
   const todayMetric = metrics.find((m) => m.date === today);
+  // Letzter bekannter Eintrag als Fallback, wenn für heute noch keiner existiert
+  const latestMetric =
+    metrics.length > 0 ? metrics[metrics.length - 1] : undefined;
 
   async function addOrUpdateMetric(
     date: string,
@@ -27,5 +30,5 @@ export function useBodyMetrics() {
     }
   }
 
-  return { metrics, todayMetric, addOrUpdateMetric };
+  return { metrics, todayMetric, latestMetric, addOrUpdateMetric };
 }
