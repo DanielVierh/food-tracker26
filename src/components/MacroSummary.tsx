@@ -38,28 +38,28 @@ const MACRO_CONFIG = [
 const COMPACT_CONFIG = [
   {
     key: "kcal" as const,
-    label: "Kalorien",
+    label: "Kcl",
     unit: "kcal",
     higherIsBetter: false,
     isKcal: true,
   },
   {
     key: "protein" as const,
-    label: "Protein",
+    label: "PR",
     unit: "g",
     higherIsBetter: true,
     isKcal: false,
   },
   {
     key: "carbs" as const,
-    label: "Kohlenhydrate",
+    label: "KH",
     unit: "g",
     higherIsBetter: false,
     isKcal: false,
   },
   {
     key: "sugar" as const,
-    label: "Zucker",
+    label: "ZCK",
     unit: "g",
     higherIsBetter: false,
     isKcal: false,
@@ -73,7 +73,7 @@ const COMPACT_CONFIG = [
   },
   {
     key: "fat" as const,
-    label: "Fett",
+    label: "FT",
     unit: "g",
     higherIsBetter: false,
     isKcal: false,

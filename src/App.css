@@ -330,9 +330,9 @@ ul {
 
 .macro-summary--compact {
   background: none;
-  padding: 0.25rem 0;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.25rem;
+  padding: 0.15rem 0;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0rem;
 }
 
 .macro-ring {
