@@ -50,7 +50,8 @@ export default function MacroBar({
   const pct = Math.min(1, ratio);
   const color = trafficLightColor(ratio, higherIsBetter);
 
-  const dash = pct * CIRCUMFERENCE;
+  let dash = pct * CIRCUMFERENCE;
+  if (dash < 0) dash = 0;
   const gap = CIRCUMFERENCE - dash;
 
   const trackStyle: CSSProperties = { stroke: "var(--color-border)" };
