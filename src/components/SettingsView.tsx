@@ -28,8 +28,8 @@ const GOAL_FIELDS: {
 const ACTIVITY_LABELS: Record<ActivityLevel, string> = {
   sedentary: "Sitzend (kaum Bewegung)",
   light: "Leicht aktiv (1-3×/Woche Sport)",
-  moderate: "Moderat aktiv (3-5×/Woche)",
-  active: "Sehr aktiv (6-7×/Woche)",
+  moderate: "Moderat aktiv (3-5×/Woche Sport)",
+  active: "Sehr aktiv (6-7×/Woche Sport)",
 };
 
 const today = new Date().toISOString().split("T")[0];

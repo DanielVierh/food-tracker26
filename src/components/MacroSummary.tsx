@@ -90,6 +90,7 @@ export default function MacroSummary({
   variant = "full",
 }: MacroSummaryProps) {
   const consumed = Math.round(totals.kcal);
+  const effective_kcal = Math.round(consumed - burnedKcal);
   const balance = Math.round(goals.kcal) - consumed + burnedKcal;
   const balanceSign = balance > 0 ? "+" : "";
   const balanceClass =
@@ -105,11 +106,18 @@ export default function MacroSummary({
         <div className="kcal-section">
           <MacroBar
             label="Kalorien"
-            value={consumed}
+            value={effective_kcal}
             goal={goals.kcal}
             unit="kcal"
           />
           <div className="kcal-stats">
+            <div className={`kcal-stat ${balanceClass}`}>
+              <span className="kcal-stat__label">🍎 - Gegessen</span>
+              <div className="kcal-stat__value-row">
+                <span className="kcal-stat__value">{consumed}</span>
+                <span className="kcal-stat__unit">kcal</span>
+              </div>
+            </div>
             <div className="kcal-stat">
               <span className="kcal-stat__label">👟 Schritte</span>
               <div className="kcal-stat__input-row">
@@ -143,11 +151,12 @@ export default function MacroSummary({
               </div>
             </div>
             <div className={`kcal-stat ${balanceClass}`}>
-              <span className="kcal-stat__label">⚖️ Bilanz</span>
+              <span className="kcal-stat__label">⚖️ Effektiv (Übrig)</span>
               <div className="kcal-stat__value-row">
+                <span className="kcal-stat__value">{effective_kcal}</span>
                 <span className="kcal-stat__value">
-                  {balanceSign}
-                  {balance}
+                  ({balanceSign}
+                  {balance})
                 </span>
                 <span className="kcal-stat__unit">kcal</span>
               </div>
