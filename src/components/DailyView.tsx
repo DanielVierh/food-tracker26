@@ -78,7 +78,7 @@ export default function DailyView() {
 
   const { entries, addEntry, deleteEntry, updateEntry } = useEntries(date);
   const { settings } = useSettings();
-  const { todayMetric } = useBodyMetrics();
+  const { todayMetric, latestMetric } = useBodyMetrics();
 
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
 
@@ -115,7 +115,8 @@ export default function DailyView() {
   function handleStepsChange(value: number) {
     setStepsState({ date, value });
     localStorage.setItem(`steps-${date}`, String(value));
-    const weight = todayMetric?.weight ?? 0;
+    const weight = (todayMetric ?? latestMetric)?.weight ?? 0;
+
     if (weight > 0) {
       const kcalFromSteps = Math.floor((value * 6.5 * weight) / 10000);
       if (kcalFromSteps > burnedKcal) {
