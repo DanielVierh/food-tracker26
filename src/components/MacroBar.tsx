@@ -7,6 +7,7 @@ interface MacroBarProps {
   unit: string;
   higherIsBetter?: boolean;
   size?: "md" | "sm";
+  view?: "ring" | "bar";
 }
 
 const CONFIGS = {
@@ -42,6 +43,7 @@ export default function MacroBar({
   unit,
   higherIsBetter = false,
   size = "md",
+  view = "bar",
 }: MacroBarProps) {
   const { radius: RADIUS, stroke: STROKE } = CONFIGS[size];
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -64,6 +66,31 @@ export default function MacroBar({
   const displayValue = Number.isInteger(value)
     ? String(value)
     : value.toFixed(1);
+
+  if (view === "bar") {
+    return (
+      <div className="macro-bar-row">
+        <span className="macro-bar-row__label">{label}</span>
+        <div className="macro-bar-row__track">
+          <div
+            className="macro-bar-row__fill"
+            style={{
+              width: `${Math.min(1, ratio) * 100}%`,
+              background: color,
+              transition: "width 0.45s ease",
+            }}
+          />
+        </div>
+        <span className="macro-bar-row__values" style={{ color }}>
+          {displayValue}
+          <span className="macro-bar-row__goal">
+            {" "}
+            / {goal} {unit}
+          </span>
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="macro-ring">

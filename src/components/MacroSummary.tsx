@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Macros } from "../types";
 import MacroBar from "./MacroBar";
 
@@ -100,6 +101,8 @@ export default function MacroSummary({
         ? "kcal-stat--deficit"
         : "";
 
+  const [viewMode, setViewMode] = useState<"bar" | "ring">("bar");
+
   return (
     <>
       {variant === "full" && (
@@ -109,6 +112,7 @@ export default function MacroSummary({
             value={effective_kcal}
             goal={goals.kcal}
             unit="kcal"
+            view="ring"
           />
           <div className="kcal-stats">
             <div className={`kcal-stat ${balanceClass}`}>
@@ -177,12 +181,22 @@ export default function MacroSummary({
                 unit={unit}
                 higherIsBetter={higherIsBetter}
                 size="sm"
+                view="ring"
               />
             ),
           )}
         </div>
       ) : (
-        <div className="macro-summary">
+        <div
+          className={`macro-summary${viewMode === "bar" ? " macro-summary--bars" : ""}`}
+        >
+          <button
+            className="macro-summary-toggle"
+            onClick={() => setViewMode((v) => (v === "bar" ? "ring" : "bar"))}
+            title={viewMode === "bar" ? "Ringansicht" : "Balkenansicht"}
+          >
+            {viewMode === "bar" ? "⬤" : "▬"}
+          </button>
           {MACRO_CONFIG.map(({ key, label, unit, higherIsBetter }) => (
             <MacroBar
               key={key}
@@ -191,6 +205,7 @@ export default function MacroSummary({
               goal={goals[key]}
               unit={unit}
               higherIsBetter={higherIsBetter}
+              view={viewMode}
             />
           ))}
         </div>
