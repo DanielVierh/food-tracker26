@@ -23,6 +23,7 @@ function DaySummary({ date }: DaySummaryProps) {
   const { settings } = useSettings();
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
   const burnedKcal = Number(localStorage.getItem(`burned-kcal-${date}`) ?? "0");
+  const steps = Number(localStorage.getItem(`steps-${date}`) ?? "0");
 
   return (
     <details className="history-day">
@@ -35,6 +36,7 @@ function DaySummary({ date }: DaySummaryProps) {
           totals={totals}
           goals={settings}
           burnedKcal={burnedKcal}
+          steps={steps}
         />
       </div>
     </details>
