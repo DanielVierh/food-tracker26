@@ -22,14 +22,15 @@ function DaySummary({ date }: DaySummaryProps) {
   const { entries } = useEntries(date);
   const { settings } = useSettings();
   const totals = sumMacros(entries.map((e: EntryWithFood) => e.computed));
-  const burnedKcal = Number(localStorage.getItem(`burned-kcal-${date}`) ?? "0");
+  const burnedKcal = Number(localStorage.getItem(`burned-kcal-${date}`) ?? 0);
+  const effective_kcal = Math.round(totals.kcal - burnedKcal);
   const steps = Number(localStorage.getItem(`steps-${date}`) ?? "0");
 
   return (
     <details className="history-day">
       <summary className="history-day__summary">
         <span className="history-day__date">{formatDate(date)}</span>
-        <span className="history-day__kcal">{totals.kcal} kcal</span>
+        <span className="history-day__kcal">{effective_kcal} kcal</span>
       </summary>
       <div className="history-day__body">
         <MacroSummary
