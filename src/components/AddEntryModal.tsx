@@ -29,7 +29,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
     () =>
       (localStorage.getItem("last-meal") as MealCategory | null) ?? "breakfast",
   );
-  const [amountG, setAmountG] = useState(100);
+  const [amountG, setAmountG] = useState("100");
 
   async function handleBarcodeDetected(barcode: string) {
     setScannerOpen(false);
@@ -49,13 +49,13 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   // --- Custom food form state ---
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [customName, setCustomName] = useState("");
-  const [customKcal, setCustomKcal] = useState(0);
-  const [customProtein, setCustomProtein] = useState(0);
-  const [customCarbs, setCustomCarbs] = useState(0);
-  const [customFat, setCustomFat] = useState(0);
-  const [customFiber, setCustomFiber] = useState(0);
-  const [customSugar, setCustomSugar] = useState(0);
-  const [customSalt, setCustomSalt] = useState(0);
+  const [customKcal, setCustomKcal] = useState("");
+  const [customProtein, setCustomProtein] = useState("");
+  const [customCarbs, setCustomCarbs] = useState("");
+  const [customFat, setCustomFat] = useState("");
+  const [customFiber, setCustomFiber] = useState("");
+  const [customSugar, setCustomSugar] = useState("");
+  const [customSalt, setCustomSalt] = useState("");
   const [customAmount, setCustomAmount] = useState("");
 
   function handleSelectFood(food: Food) {
@@ -76,7 +76,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
   function handleConfirm() {
     if (!selectedFood?.id) return;
     localStorage.setItem("last-meal", meal);
-    onAdd(selectedFood.id, meal, amountG, selectedFood.name);
+    onAdd(selectedFood.id, meal, Number(amountG), selectedFood.name);
     onClose();
   }
 
@@ -84,13 +84,13 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
     if (!customName.trim()) return;
     const food = await addCustomFood({
       name: customName.trim(),
-      kcal: customKcal,
-      protein: customProtein,
-      carbs: customCarbs,
-      fat: customFat,
-      fiber: customFiber,
-      sugar: customSugar,
-      salt: customSalt,
+      kcal: Number(customKcal),
+      protein: Number(customProtein),
+      carbs: Number(customCarbs),
+      fat: Number(customFat),
+      fiber: Number(customFiber),
+      sugar: Number(customSugar),
+      salt: Number(customSalt),
       quantityUnit: customAmount,
     });
     handleSelectFood(food);
@@ -189,7 +189,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       type="number"
                       min={0}
                       value={customKcal}
-                      onChange={(e) => setCustomKcal(Number(e.target.value))}
+                      onChange={(e) => setCustomKcal(e.target.value)}
                     />
                   </label>
                   <label>
@@ -200,7 +200,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customFat}
-                      onChange={(e) => setCustomFat(Number(e.target.value))}
+                      onChange={(e) => setCustomFat(e.target.value)}
                     />
                   </label>
                   <label>
@@ -211,7 +211,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customCarbs}
-                      onChange={(e) => setCustomCarbs(Number(e.target.value))}
+                      onChange={(e) => setCustomCarbs(e.target.value)}
                     />
                   </label>
                   <label>
@@ -222,7 +222,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customSugar}
-                      onChange={(e) => setCustomSugar(Number(e.target.value))}
+                      onChange={(e) => setCustomSugar(e.target.value)}
                     />
                   </label>
                   <label>
@@ -233,7 +233,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customFiber}
-                      onChange={(e) => setCustomFiber(Number(e.target.value))}
+                      onChange={(e) => setCustomFiber(e.target.value)}
                     />
                   </label>
                   <label>
@@ -244,7 +244,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customProtein}
-                      onChange={(e) => setCustomProtein(Number(e.target.value))}
+                      onChange={(e) => setCustomProtein(e.target.value)}
                     />
                   </label>
                   <label>
@@ -255,7 +255,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       min={0}
                       step="any"
                       value={customSalt}
-                      onChange={(e) => setCustomSalt(Number(e.target.value))}
+                      onChange={(e) => setCustomSalt(e.target.value)}
                     />
                   </label>
                   <label>
@@ -283,7 +283,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
           <>
             <h2 className="modal__title">{selectedFood.name}</h2>
 
-            <MacroPreview food={selectedFood} amountG={amountG} />
+            <MacroPreview food={selectedFood} amountG={Number(amountG) || 0} />
 
             <label className="form-label">
               Mahlzeit
@@ -307,7 +307,7 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                 type="number"
                 min={1}
                 value={amountG}
-                onChange={(e) => setAmountG(Number(e.target.value))}
+                onChange={(e) => setAmountG(e.target.value)}
                 autoFocus
               />
             </label>

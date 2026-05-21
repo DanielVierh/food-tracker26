@@ -155,6 +155,7 @@ export default function DailyView() {
       </div>
 
       <MacroSummary
+        key={date}
         totals={totals}
         goals={settings}
         burnedKcal={burnedKcal}

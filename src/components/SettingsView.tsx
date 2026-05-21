@@ -386,7 +386,7 @@ export default function SettingsView() {
               className="input"
               type="number"
               min={0}
-              value={goals[key]}
+              value={goals[key] || ""}
               onChange={(e) => {
                 setGoalsDraft((prev) => ({
                   ...(prev ?? goals),

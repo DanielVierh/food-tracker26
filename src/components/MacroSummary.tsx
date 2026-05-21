@@ -102,6 +102,18 @@ export default function MacroSummary({
         : "";
 
   const [viewMode, setViewMode] = useState<"bar" | "ring">("bar");
+  const [stepsStr, setStepsStr] = useState(() =>
+    steps > 0 ? String(steps) : "",
+  );
+  const [burnedStr, setBurnedStr] = useState(() =>
+    burnedKcal > 0 ? String(burnedKcal) : "",
+  );
+  const [prevBurnedKcal, setPrevBurnedKcal] = useState(burnedKcal);
+
+  if (prevBurnedKcal !== burnedKcal) {
+    setPrevBurnedKcal(burnedKcal);
+    setBurnedStr(burnedKcal > 0 ? String(burnedKcal) : "");
+  }
 
   return (
     <>
@@ -130,11 +142,12 @@ export default function MacroSummary({
                   type="number"
                   min={0}
                   step={100}
-                  value={steps}
+                  value={stepsStr}
                   readOnly={!onStepsChange}
-                  onChange={(e) =>
-                    onStepsChange?.(Math.max(0, Number(e.target.value)))
-                  }
+                  onChange={(e) => {
+                    setStepsStr(e.target.value);
+                    onStepsChange?.(Math.max(0, Number(e.target.value) || 0));
+                  }}
                 />
               </div>
             </div>
@@ -145,11 +158,14 @@ export default function MacroSummary({
                   className="input kcal-stat__input"
                   type="number"
                   min={0}
-                  value={burnedKcal}
+                  value={burnedStr}
                   readOnly={!onBurnedKcalChange}
-                  onChange={(e) =>
-                    onBurnedKcalChange?.(Math.max(0, Number(e.target.value)))
-                  }
+                  onChange={(e) => {
+                    setBurnedStr(e.target.value);
+                    onBurnedKcalChange?.(
+                      Math.max(0, Number(e.target.value) || 0),
+                    );
+                  }}
                 />
                 <span className="kcal-stat__unit">kcal</span>
               </div>

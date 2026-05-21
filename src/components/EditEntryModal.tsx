@@ -16,7 +16,7 @@ export default function EditEntryModal({
   onDelete,
   onClose,
 }: EditEntryModalProps) {
-  const [amountG, setAmountG] = useState(entry.amountG);
+  const [amountG, setAmountG] = useState(String(entry.amountG));
   const [meal, setMeal] = useState<MealCategory>(entry.meal);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -24,7 +24,7 @@ export default function EditEntryModal({
 
   function handleSave() {
     if (entry.id === undefined) return;
-    onSave(entry.id, meal, amountG);
+    onSave(entry.id, meal, Number(amountG));
     onClose();
   }
 
@@ -47,7 +47,7 @@ export default function EditEntryModal({
 
         <h2 className="modal__title">{food.name}</h2>
 
-        <MacroPreview food={food} amountG={amountG} />
+        <MacroPreview food={food} amountG={Number(amountG) || 0} />
 
         <label className="form-label">
           Mahlzeit
@@ -71,7 +71,7 @@ export default function EditEntryModal({
             type="number"
             min={1}
             value={amountG}
-            onChange={(e) => setAmountG(Number(e.target.value))}
+            onChange={(e) => setAmountG(e.target.value)}
           />
         </label>
 

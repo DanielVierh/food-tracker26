@@ -3,17 +3,28 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db/db";
 import type { Food } from "../types";
 
-type EditDraft = Omit<Food, "id" | "source">;
+type EditDraft = {
+  name: string;
+  kcal: string;
+  protein: string;
+  carbs: string;
+  fat: string;
+  fiber: string;
+  sugar: string;
+  salt: string;
+  barcode: string;
+  quantityUnit: string;
+};
 
 const EMPTY_DRAFT: EditDraft = {
   name: "",
-  kcal: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
-  fiber: 0,
-  sugar: 0,
-  salt: 0,
+  kcal: "",
+  protein: "",
+  carbs: "",
+  fat: "",
+  fiber: "",
+  sugar: "",
+  salt: "",
   barcode: "",
   quantityUnit: "",
 };
@@ -35,13 +46,13 @@ export default function FoodDatabaseView() {
     setEditingId(food.id!);
     setDraft({
       name: food.name,
-      kcal: food.kcal,
-      protein: food.protein,
-      carbs: food.carbs,
-      fat: food.fat,
-      fiber: food.fiber ?? 0,
-      sugar: food.sugar ?? 0,
-      salt: food.salt ?? 0,
+      kcal: String(food.kcal),
+      protein: String(food.protein),
+      carbs: String(food.carbs),
+      fat: String(food.fat),
+      fiber: String(food.fiber ?? 0),
+      sugar: String(food.sugar ?? 0),
+      salt: String(food.salt ?? 0),
       barcode: food.barcode ?? "",
       quantityUnit: food.quantityUnit ?? "",
     });
@@ -51,13 +62,13 @@ export default function FoodDatabaseView() {
     if (editingId === null) return;
     await db.foods.update(editingId, {
       name: draft.name.trim(),
-      kcal: draft.kcal,
-      protein: draft.protein,
-      carbs: draft.carbs,
-      fat: draft.fat,
-      fiber: draft.fiber,
-      sugar: draft.sugar,
-      salt: draft.salt,
+      kcal: Number(draft.kcal),
+      protein: Number(draft.protein),
+      carbs: Number(draft.carbs),
+      fat: Number(draft.fat),
+      fiber: Number(draft.fiber),
+      sugar: Number(draft.sugar),
+      salt: Number(draft.salt),
       barcode: draft.barcode || undefined,
       quantityUnit: draft.quantityUnit || undefined,
     });
@@ -82,12 +93,11 @@ export default function FoodDatabaseView() {
           type={type}
           min={type === "number" ? 0 : undefined}
           step={type === "number" ? "any" : undefined}
-          value={draft[key] as string | number}
+          value={draft[key]}
           onChange={(e) =>
             setDraft((d) => ({
               ...d,
-              [key]:
-                type === "number" ? Number(e.target.value) : e.target.value,
+              [key]: e.target.value,
             }))
           }
         />
