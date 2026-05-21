@@ -71,3 +71,36 @@ export function useHistory() {
   const dates: string[] = rawDates ?? [];
   return dates;
 }
+
+// ---------------------------------------------------------------------------
+// useMonthKcal — returns a Map<date, totalKcal> for the given month
+// ---------------------------------------------------------------------------
+export function useMonthKcal(year: number, month: number): Map<string, number> {
+  const firstDay = `${year}-${String(month + 1).padStart(2, "0")}-01`;
+  const nextMonthFirst =
+    month === 11
+      ? `${year + 1}-01-01`
+      : `${year}-${String(month + 2).padStart(2, "0")}-01`;
+
+  const data = useLiveQuery(async () => {
+    const entries = await db.entries
+      .where("date")
+      .between(firstDay, nextMonthFirst, true, false)
+      .toArray();
+
+    const foodIds = [...new Set(entries.map((e) => e.foodId))];
+    const foods = await db.foods.bulkGet(foodIds);
+    const foodMap = new Map(foods.filter(Boolean).map((f) => [f!.id!, f!]));
+
+    const dateMap = new Map<string, number>();
+    for (const entry of entries) {
+      const food = foodMap.get(entry.foodId);
+      if (!food) continue;
+      const kcal = (food.kcal / 100) * entry.amountG;
+      dateMap.set(entry.date, (dateMap.get(entry.date) ?? 0) + kcal);
+    }
+    return dateMap;
+  }, [year, month]);
+
+  return data ?? new Map();
+}

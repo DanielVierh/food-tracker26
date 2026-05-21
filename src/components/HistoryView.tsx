@@ -3,6 +3,7 @@ import { useHistory, useEntries } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
 import { sumMacros } from "../utils/macros";
 import MacroSummary from "./MacroSummary";
+import TrackingCalendar from "./TrackingCalendar";
 import type { EntryWithFood } from "../types";
 
 function formatDate(iso: string): string {
@@ -48,7 +49,9 @@ function DaySummary({ date }: DaySummaryProps) {
   );
 }
 
-export default function HistoryView() {
+export default function HistoryView({
+  onDayClick,
+}: { onDayClick?: (date: string) => void } = {}) {
   const dates = useHistory();
   const [limit, setLimit] = useState(7);
 
@@ -63,6 +66,7 @@ export default function HistoryView() {
   return (
     <div className="view">
       <h2 className="view__title">Verlauf</h2>
+      <TrackingCalendar onDayClick={onDayClick} />
       {(dates as string[]).slice(0, limit).map((date: string) => (
         <DaySummary key={date} date={date} />
       ))}

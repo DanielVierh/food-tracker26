@@ -32,8 +32,12 @@ function msUntilMidnight(): number {
   return midnight.getTime() - now.getTime();
 }
 
-export default function DailyView() {
-  const [date, setDate] = useState<string>(toISODate(new Date()));
+export default function DailyView({
+  initialDate,
+}: { initialDate?: string } = {}) {
+  const [date, setDate] = useState<string>(
+    initialDate ?? toISODate(new Date()),
+  );
   const [showModal, setShowModal] = useState(false);
   const [editEntry, setEditEntry] = useState<EntryWithFood | null>(null);
   const [toastMsg, setToastMsg] = useState("");

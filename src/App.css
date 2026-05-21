@@ -885,6 +885,109 @@ ul {
 }
 
 /* =========================================================
+   Tracking Calendar
+   ========================================================= */
+.cal {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal__title {
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.cal__nav-btn {
+  font-size: 1.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+.cal__nav-btn:hover {
+  color: var(--color-text);
+  background: var(--color-border);
+}
+
+.cal__weekdays,
+.cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.cal__weekdays span {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.2rem 0;
+}
+
+.cal__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.cal__day--tracked {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.cal__day--over {
+  background: var(--color-danger);
+  color: #fff;
+  font-weight: 700;
+}
+
+.cal__day--clickable {
+  cursor: pointer;
+}
+.cal__day--clickable:hover {
+  opacity: 0.8;
+  outline: 2px solid var(--color-text-muted);
+  outline-offset: -2px;
+}
+
+.cal__day--today:not(.cal__day--tracked) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.cal__day--today.cal__day--tracked {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+.cal__stats {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* =========================================================
    Empty state
    ========================================================= */
 .empty-state {
