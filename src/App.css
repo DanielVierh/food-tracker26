@@ -423,6 +423,7 @@ ul {
   fill: var(--color-text);
   font-family: var(--font);
   filter: drop-shadow(0 0 6px white);
+  paint-order: stroke fill;
   text-shadow:
     11px -12px 11px #36befb,
     1px 3px 1px black,
@@ -431,8 +432,12 @@ ul {
 
 .macro-ring__unit-text {
   font-size: 11px;
-  fill: var(--color-text-muted);
+  fill: #cbd5e1;
   font-family: var(--font);
+  paint-order: stroke fill;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 2px;
+  stroke-linejoin: round;
 }
 
 .macro-ring__label {

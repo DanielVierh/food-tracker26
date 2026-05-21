@@ -125,7 +125,7 @@ export default function MacroBar({
           dominantBaseline="middle"
           textAnchor="middle"
           className="macro-ring__value-text"
-          style={size === "sm" ? { fontSize: 8 } : undefined}
+          style={size === "sm" ? { fontSize: 12 } : undefined}
         >
           {displayValue}
         </text>
@@ -135,7 +135,7 @@ export default function MacroBar({
           dominantBaseline="middle"
           textAnchor="middle"
           className="macro-ring__unit-text"
-          style={size === "sm" ? { fontSize: 7 } : undefined}
+          style={size === "sm" ? { fontSize: 11 } : undefined}
         >
           {unit}
         </text>
