@@ -31,6 +31,10 @@ function DaySummary({ date }: DaySummaryProps) {
       <summary className="history-day__summary">
         <span className="history-day__date">{formatDate(date)}</span>
         <span className="history-day__kcal">{effective_kcal} kcal</span>
+        <span className="history-day__macros">
+          FT {totals.fat}g | P {totals.protein}g | KH {totals.carbs}g | ZKR{" "}
+          {totals.sugar}g | BAL {totals.fiber}g | SZ {totals.salt}g
+        </span>
       </summary>
       <div className="history-day__body">
         <MacroSummary

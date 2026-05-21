@@ -40,9 +40,11 @@ export default function EntryCard({ entry, onEdit, onDelete }: EntryCardProps) {
       </div>
       <div className="entry-card__macros">
         <span>{computed.kcal} kcal</span>
-        <span>P {computed.protein}g</span>
-        <span>K {computed.carbs}g</span>
         <span>F {computed.fat}g</span>
+        <span>K {computed.carbs}g</span>
+        <span>Z {computed.sugar}g</span>
+        <span>B {computed.fiber}g</span>
+        <span>P {computed.protein}g</span>
       </div>
       {confirming ? (
         <div
