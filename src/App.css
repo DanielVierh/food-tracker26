@@ -2,12 +2,12 @@
    Design tokens
    ========================================================= */
 :root {
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
-  --color-border: #334155;
+  --color-bg: #010611;
+  --color-surface: #052827;
+  --color-border: #021227;
   --color-text: #f1f5f9;
   --color-text-muted: #94a3b8;
-  --color-primary: #10b981;
+  --color-primary: #0b8a31;
   --color-primary-hover: #059669;
   --color-danger: #ef4444;
 
@@ -151,6 +151,7 @@ ul {
 .btn--primary {
   background: var(--color-primary);
   color: #fff;
+  filter: drop-shadow(0 0 6px white);
 }
 .btn--primary:hover {
   background: var(--color-primary-hover);
@@ -259,8 +260,9 @@ ul {
 .kcal-stats {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .kcal-stat {
@@ -270,6 +272,8 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  text-align: center;
+  flex: 1;
 }
 
 .kcal-stat__label {
@@ -283,7 +287,8 @@ ul {
 .kcal-stat__input-row,
 .kcal-stat__value-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: center;
   gap: 0.35rem;
 }
 
@@ -335,12 +340,15 @@ ul {
   top: 5px;
   left: 5px;
   background-color: black;
-  padding: 3px 5px;
+  padding: 7px;
   border-radius: 5px;
   font-size: 0.7rem;
   cursor: pointer;
   box-shadow: 0 0 8px black;
   border: 1px solid rgba(128, 128, 128, 0.465);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .macro-summary--compact {
@@ -405,6 +413,7 @@ ul {
 }
 
 .macro-ring__svg {
+  filter: drop-shadow(0 0 10px rgb(10, 161, 108));
   overflow: visible;
 }
 
@@ -413,6 +422,11 @@ ul {
   font-weight: 700;
   fill: var(--color-text);
   font-family: var(--font);
+  filter: drop-shadow(0 0 6px white);
+  text-shadow:
+    11px -12px 11px #36befb,
+    1px 3px 1px black,
+    1px -2px 2px black;
 }
 
 .macro-ring__unit-text {
