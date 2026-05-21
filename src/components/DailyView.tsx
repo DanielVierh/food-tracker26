@@ -3,6 +3,7 @@ import { useEntries } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
 import { useBodyMetrics } from "../hooks/useBodyMetrics";
 import { sumMacros } from "../utils/macros";
+import { db } from "../db/db";
 import MacroSummary from "./MacroSummary";
 import EntryList from "./EntryList";
 import AddEntryModal from "./AddEntryModal";
@@ -107,6 +108,28 @@ export default function DailyView() {
     void updateEntry(id, meal, amountG);
   }
 
+  async function handleAddToTomorrow(
+    foodId: number,
+    meal: MealCategory,
+    amountG: number,
+    foodName: string,
+  ) {
+    const d = new Date(date);
+    d.setDate(d.getDate() + 1);
+    const tomorrow = toISODate(d);
+    const existing = await db.entries
+      .where({ foodId, date: tomorrow, meal })
+      .first();
+    if (existing?.id !== undefined) {
+      await db.entries.update(existing.id, {
+        amountG: existing.amountG + amountG,
+      });
+    } else {
+      await db.entries.add({ foodId, date: tomorrow, meal, amountG });
+    }
+    showToast(`✓ ${foodName} für morgen hinzugefügt`);
+  }
+
   function handleBurnedKcalChange(value: number) {
     setBurnedKcalState({ date, value });
     localStorage.setItem(`burned-kcal-${date}`, String(value));
@@ -189,6 +212,9 @@ export default function DailyView() {
           entry={editEntry}
           onSave={handleSaveEdit}
           onDelete={handleDelete}
+          onAddToTomorrow={(foodId, meal, amountG, foodName) =>
+            void handleAddToTomorrow(foodId, meal, amountG, foodName)
+          }
           onClose={() => setEditEntry(null)}
         />
       )}

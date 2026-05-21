@@ -7,6 +7,12 @@ interface EditEntryModalProps {
   entry: EntryWithFood;
   onSave: (id: number, meal: MealCategory, amountG: number) => void;
   onDelete: (id: number) => void;
+  onAddToTomorrow: (
+    foodId: number,
+    meal: MealCategory,
+    amountG: number,
+    foodName: string,
+  ) => void;
   onClose: () => void;
 }
 
@@ -14,6 +20,7 @@ export default function EditEntryModal({
   entry,
   onSave,
   onDelete,
+  onAddToTomorrow,
   onClose,
 }: EditEntryModalProps) {
   const [amountG, setAmountG] = useState(String(entry.amountG));
@@ -31,6 +38,12 @@ export default function EditEntryModal({
   function handleDelete() {
     if (entry.id === undefined) return;
     onDelete(entry.id);
+    onClose();
+  }
+
+  function handleAddToTomorrow() {
+    if (!food.id) return;
+    onAddToTomorrow(food.id, meal, Number(amountG), food.name);
     onClose();
   }
 
@@ -76,6 +89,10 @@ export default function EditEntryModal({
         </label>
 
         <div className="modal__actions">
+          <button className="btn btn--ghost" onClick={handleAddToTomorrow}>
+            + Morgen hinzufügen
+          </button>
+
           {confirmDelete ? (
             <>
               <span className="modal__delete-hint">Wirklich löschen?</span>
