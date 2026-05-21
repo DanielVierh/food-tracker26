@@ -104,3 +104,61 @@ export function useMonthKcal(year: number, month: number): Map<string, number> {
 
   return data ?? new Map();
 }
+
+// ---------------------------------------------------------------------------
+// DayData — aggregated macros for a single day
+// ---------------------------------------------------------------------------
+export interface DayData {
+  date: string;
+  kcal: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  sugar: number;
+  salt: number;
+}
+
+// ---------------------------------------------------------------------------
+// useHistoryData — per-day macro totals, oldest first, capped at limit
+// ---------------------------------------------------------------------------
+export function useHistoryData(limit = 60): DayData[] {
+  const data = useLiveQuery(async () => {
+    const allEntries = await db.entries.orderBy("date").toArray();
+    const foodIds = [...new Set(allEntries.map((e) => e.foodId))];
+    const foods = await db.foods.bulkGet(foodIds);
+    const foodMap = new Map(foods.filter(Boolean).map((f) => [f!.id!, f!]));
+
+    const byDate = new Map<string, Omit<DayData, "date">>();
+    for (const entry of allEntries) {
+      const food = foodMap.get(entry.foodId);
+      if (!food) continue;
+      const f = entry.amountG / 100;
+      const cur = byDate.get(entry.date) ?? {
+        kcal: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+        salt: 0,
+      };
+      byDate.set(entry.date, {
+        kcal: cur.kcal + food.kcal * f,
+        protein: cur.protein + food.protein * f,
+        carbs: cur.carbs + food.carbs * f,
+        fat: cur.fat + food.fat * f,
+        fiber: cur.fiber + food.fiber * f,
+        sugar: cur.sugar + food.sugar * f,
+        salt: cur.salt + food.salt * f,
+      });
+    }
+
+    return [...byDate.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-limit)
+      .map(([date, m]) => ({ date, ...m }));
+  }, [limit]);
+
+  return data ?? [];
+}

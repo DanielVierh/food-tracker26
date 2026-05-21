@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useHistory, useEntries } from "../hooks/useEntries";
+import { useHistory, useEntries, useHistoryData } from "../hooks/useEntries";
 import { useSettings } from "../hooks/useSettings";
+import MacroHistoryChart from "./MacroHistoryChart";
 import { sumMacros } from "../utils/macros";
 import MacroSummary from "./MacroSummary";
 import TrackingCalendar from "./TrackingCalendar";
@@ -53,6 +54,8 @@ export default function HistoryView({
   onDayClick,
 }: { onDayClick?: (date: string) => void } = {}) {
   const dates = useHistory();
+  const historyData = useHistoryData(60);
+  const { settings } = useSettings();
   const [limit, setLimit] = useState(7);
 
   if (dates.length === 0) {
@@ -67,6 +70,11 @@ export default function HistoryView({
     <div className="view">
       <h2 className="view__title">Verlauf</h2>
       <TrackingCalendar onDayClick={onDayClick} />
+      <MacroHistoryChart
+        data={historyData}
+        kcalGoal={settings.kcal}
+        macroGoals={settings}
+      />
       {(dates as string[]).slice(0, limit).map((date: string) => (
         <DaySummary key={date} date={date} />
       ))}
