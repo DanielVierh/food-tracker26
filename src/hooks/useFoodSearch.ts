@@ -72,8 +72,13 @@ export function useFoodSearch() {
   async function addCustomFood(
     food: Omit<Food, "id" | "source">,
   ): Promise<Food> {
-    const id = await db.foods.add({ ...food, source: "custom" });
-    return { ...food, source: "custom", id: id as number };
+    const savedAt = new Date().toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const id = await db.foods.add({ ...food, source: "custom", savedAt });
+    return { ...food, source: "custom", savedAt, id: id as number };
   }
 
   return { query, setQuery, results, isLoading, addCustomFood };

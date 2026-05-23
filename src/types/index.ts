@@ -26,6 +26,8 @@ export interface Food extends Macros {
   quantityUnit?: string;
   /** All macro values are per 100 g */
   source: FoodSource;
+  /** Date the product was saved/last edited, format dd.mm.yyyy */
+  savedAt?: string;
 }
 
 // ---------------------------------------------------------------------------

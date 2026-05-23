@@ -36,6 +36,8 @@ class FoodTrackerDB extends Dexie {
     this.version(3).stores({
       bodyMetrics: "++id, date",
     });
+
+    this.version(4).stores({});
   }
 }
 

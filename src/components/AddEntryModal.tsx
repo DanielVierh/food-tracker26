@@ -156,6 +156,9 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                       <span className="food-list__kcal">
                         {food.kcal} kcal/100g
                       </span>
+                      {food.source === "custom" && food.savedAt && (
+                        <span className="food-list__badge">{food.savedAt}</span>
+                      )}
                     </button>
                   </li>
                 ))}

@@ -46,7 +46,7 @@ export default function SettingsView() {
 
   type ProfileDraft = {
     age: number;
-    gender: "male" | "female";
+    gender: "male" | "female" | "";
     height: number;
     targetWeight: number;
     activityLevel: ActivityLevel;
@@ -59,7 +59,7 @@ export default function SettingsView() {
     () =>
       profileDraft ?? {
         age: settings.age ?? 0,
-        gender: settings.gender ?? "default_gender",
+        gender: settings.gender ?? "",
         height: settings.height ?? 0,
         targetWeight: settings.targetWeight ?? 0,
         activityLevel: settings.activityLevel ?? "sedentary",
@@ -109,7 +109,8 @@ export default function SettingsView() {
     const { age, gender, height, targetWeight, activityLevel, goalMonths } =
       profile;
     const weight = metric.weight;
-    if (!age || !height || !targetWeight || !weight || !goalMonths) return null;
+    if (!age || !gender || !height || !targetWeight || !weight || !goalMonths)
+      return null;
     return calcTargetKcal(
       weight,
       height,
@@ -124,7 +125,7 @@ export default function SettingsView() {
   async function handleSaveProfile() {
     await updateSettings({
       age: profile.age || undefined,
-      gender: profile.gender,
+      gender: profile.gender || undefined,
       height: profile.height || undefined,
       targetWeight: profile.targetWeight || undefined,
       activityLevel: profile.activityLevel,
@@ -187,12 +188,12 @@ export default function SettingsView() {
               onChange={(e) => {
                 setProfileDraft((p) => ({
                   ...(p ?? profile),
-                  gender: e.target.value as "male" | "female",
+                  gender: e.target.value as "male" | "female" | "",
                 }));
                 setProfileSaved(false);
               }}
             >
-              <option value="default_gender">Bitte auswählen</option>
+              <option value="">Bitte eine Auswahl treffen</option>
               <option value="male">Männlich</option>
               <option value="female">Weiblich</option>
             </select>

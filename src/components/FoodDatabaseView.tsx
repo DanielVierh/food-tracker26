@@ -60,6 +60,11 @@ export default function FoodDatabaseView() {
 
   async function handleSaveEdit() {
     if (editingId === null) return;
+    const savedAt = new Date().toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
     await db.foods.update(editingId, {
       name: draft.name.trim(),
       kcal: Number(draft.kcal),
@@ -71,6 +76,7 @@ export default function FoodDatabaseView() {
       salt: Number(draft.salt),
       barcode: draft.barcode || undefined,
       quantityUnit: draft.quantityUnit || undefined,
+      savedAt,
     });
     setEditingId(null);
   }
@@ -155,9 +161,12 @@ export default function FoodDatabaseView() {
                 <div className="food-list__info">
                   <span className="food-list__name">{food.name}</span>
                   <span className="food-list__kcal">{food.kcal} kcal/100g</span>
-                  {food.source === "custom" && (
-                    <span className="food-list__badge">custom</span>
-                  )}
+                  {food.source === "custom" &&
+                    (food.savedAt ?? food.quantityUnit) && (
+                      <span className="food-list__badge">
+                        {food.savedAt ?? food.quantityUnit}
+                      </span>
+                    )}
                 </div>
                 <div className="food-list__actions">
                   <button

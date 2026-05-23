@@ -19,6 +19,7 @@ interface SeedRecord {
 }
 
 const SEED_KEY = "food-tracker-seeded-v1";
+const MIGRATE_QUANTITY_UNIT_KEY = "food-tracker-migrate-quantityUnit-v1";
 
 // ---------------------------------------------------------------------------
 // seedDB — runs exactly once per device (guarded by localStorage flag).
@@ -46,4 +47,38 @@ export async function seedDB(): Promise<void> {
 
   await db.foods.bulkAdd(foods);
   localStorage.setItem(SEED_KEY, "1");
+}
+
+// ---------------------------------------------------------------------------
+// migrateQuantityUnit — one-time backfill: sets quantityUnit on existing DB
+// records that were seeded before the field was stored, matched by barcode.
+// ---------------------------------------------------------------------------
+export async function migrateQuantityUnit(): Promise<void> {
+  if (localStorage.getItem(MIGRATE_QUANTITY_UNIT_KEY)) return;
+
+  const barcodeMap = new Map<string, string>();
+  for (const r of rawData as SeedRecord[]) {
+    if (r.barcode && r.quantityUnit) {
+      barcodeMap.set(r.barcode, r.quantityUnit);
+    }
+  }
+
+  const foods = await db.foods.toArray();
+  const updates: { id: number; quantityUnit: string }[] = [];
+  for (const food of foods) {
+    if (!food.quantityUnit && food.barcode && barcodeMap.has(food.barcode)) {
+      updates.push({
+        id: food.id!,
+        quantityUnit: barcodeMap.get(food.barcode)!,
+      });
+    }
+  }
+
+  await db.transaction("rw", db.foods, async () => {
+    for (const u of updates) {
+      await db.foods.update(u.id, { quantityUnit: u.quantityUnit });
+    }
+  });
+
+  localStorage.setItem(MIGRATE_QUANTITY_UNIT_KEY, "1");
 }
