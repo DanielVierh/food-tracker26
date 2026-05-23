@@ -59,11 +59,11 @@ export default function SettingsView() {
     () =>
       profileDraft ?? {
         age: settings.age ?? 0,
-        gender: settings.gender ?? "male",
+        gender: settings.gender ?? "default_gender",
         height: settings.height ?? 0,
         targetWeight: settings.targetWeight ?? 0,
-        activityLevel: settings.activityLevel ?? "moderate",
-        goalMonths: settings.goalMonths ?? 3,
+        activityLevel: settings.activityLevel ?? "sedentary",
+        goalMonths: settings.goalMonths ?? 1,
       },
     [profileDraft, settings],
   );
@@ -192,6 +192,7 @@ export default function SettingsView() {
                 setProfileSaved(false);
               }}
             >
+              <option value="default_gender">Bitte auswählen</option>
               <option value="male">Männlich</option>
               <option value="female">Weiblich</option>
             </select>
