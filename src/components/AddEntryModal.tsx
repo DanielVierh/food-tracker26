@@ -286,8 +286,6 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
           <>
             <h2 className="modal__title">{selectedFood.name}</h2>
 
-            <MacroPreview food={selectedFood} amountG={Number(amountG) || 0} />
-
             <label className="form-label">
               Mahlzeit
               <select
@@ -314,6 +312,8 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
                 autoFocus
               />
             </label>
+
+            <MacroPreview food={selectedFood} amountG={Number(amountG) || 0} />
 
             <div className="modal__actions">
               <button
