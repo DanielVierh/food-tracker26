@@ -105,16 +105,32 @@
   --color-danger: #dc2626;
 }
 
-/* Volcano — dark red/magma */
-[data-theme="volcano"] {
-  --color-bg: #0d0000;
-  --color-surface: #200500;
-  --color-border: #3d0900;
-  --color-text: #ffe8e0;
-  --color-text-muted: #b05040;
-  --color-primary: #ff3500;
-  --color-primary-hover: #ff5522;
-  --color-danger: #ff6b6b;
+[data-theme="arctic"] .macro-ring__value-text {
+  text-shadow: 0 0 0 transparent;
+}
+
+[data-theme="arctic"] .macro-ring__unit-text {
+  text-shadow: 0 0 0 transparent;
+}
+
+/* Snow — bright white/ice */
+[data-theme="snow"] {
+  --color-bg: #ffffff;
+  --color-surface: #fafafa;
+  --color-border: #d8e7f7;
+  --color-text: #0f2138;
+  --color-text-muted: #5f7c99;
+  --color-primary: #2f80ed;
+  --color-primary-hover: #1f6ed6;
+  --color-danger: #d93a3a;
+}
+
+[data-theme="snow"] .macro-ring__value-text {
+  text-shadow: 0 0 0 transparent;
+}
+
+[data-theme="snow"] .macro-ring__unit-text {
+  text-shadow: 0 0 0 transparent;
 }
 
 /* Lavender — deep violet/purple */
@@ -275,7 +291,7 @@ ul {
 }
 .btn--primary {
   background: var(--color-primary);
-  color: #fff;
+  color: black;
   filter: drop-shadow(0 0 6px white);
 }
 .btn--primary:hover {
@@ -464,7 +480,7 @@ ul {
   position: absolute;
   top: 5px;
   left: 5px;
-  background-color: black;
+  background-color: transparent;
   padding: 7px;
   border-radius: 5px;
   font-size: 0.7rem;

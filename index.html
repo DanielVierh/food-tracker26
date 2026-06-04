@@ -9,6 +9,7 @@
     <script>
       (function () {
         var t = localStorage.getItem("food-tracker-theme");
+        if (t === "volcano") t = "snow";
         if (t) document.documentElement.setAttribute("data-theme", t);
       })();
     </script>

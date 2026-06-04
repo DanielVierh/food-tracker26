@@ -11,7 +11,7 @@ export const THEMES: { id: ThemeId; label: string }[] = [
   { id: "rose", label: "Rose" },
   { id: "desert", label: "Desert" },
   { id: "arctic", label: "Arctic" },
-  { id: "volcano", label: "Volcano" },
+  { id: "snow", label: "Snow" },
   { id: "lavender", label: "Lavender" },
   { id: "cyber", label: "Cyber" },
 ];

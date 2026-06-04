@@ -14,7 +14,8 @@ export default function App() {
   const { settings } = useSettings();
 
   useEffect(() => {
-    const theme = settings.theme ?? "forest";
+    const rawTheme = settings.theme as string | undefined;
+    const theme = rawTheme === "volcano" ? "snow" : (rawTheme ?? "forest");
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("food-tracker-theme", theme);
   }, [settings.theme]);

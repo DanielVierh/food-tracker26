@@ -71,7 +71,7 @@ export type ThemeId =
   | "rose"
   | "desert"
   | "arctic"
-  | "volcano"
+  | "snow"
   | "lavender"
   | "cyber";
 
