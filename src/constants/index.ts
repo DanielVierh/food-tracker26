@@ -1,4 +1,20 @@
-import type { MealCategory, Settings } from "../types";
+import type { MealCategory, Settings, ThemeId } from "../types";
+
+// ---------------------------------------------------------------------------
+// Themes
+// ---------------------------------------------------------------------------
+export const THEMES: { id: ThemeId; label: string }[] = [
+  { id: "forest", label: "Forest" },
+  { id: "ocean", label: "Ocean" },
+  { id: "sunset", label: "Sunset" },
+  { id: "midnight", label: "Midnight" },
+  { id: "rose", label: "Rose" },
+  { id: "desert", label: "Desert" },
+  { id: "arctic", label: "Arctic" },
+  { id: "volcano", label: "Volcano" },
+  { id: "lavender", label: "Lavender" },
+  { id: "cyber", label: "Cyber" },
+];
 
 // ---------------------------------------------------------------------------
 // Meal categories — ordered for display
@@ -22,6 +38,7 @@ export const MEAL_CATEGORY_ORDER: MealCategory[] = [
 // ---------------------------------------------------------------------------
 export const DEFAULT_SETTINGS: Settings = {
   id: 1,
+  theme: "forest",
   kcal: 2000,
   protein: 150,
   carbs: 200,

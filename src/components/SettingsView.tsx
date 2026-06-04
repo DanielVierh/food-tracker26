@@ -2,8 +2,9 @@ import { useMemo, useState } from "react";
 import { useSettings } from "../hooks/useSettings";
 import { useBodyMetrics } from "../hooks/useBodyMetrics";
 import { calcTargetKcal } from "../utils/macros";
+import { THEMES } from "../constants";
 import BodyMetricsChart from "./BodyMetricsChart";
-import type { ActivityLevel, Settings } from "../types";
+import type { ActivityLevel, Settings, ThemeId } from "../types";
 
 type GoalKey = keyof Omit<
   Settings,
@@ -157,6 +158,27 @@ export default function SettingsView() {
 
   return (
     <div className="view">
+      {/* ── 0: Darstellung ── */}
+      <section className="settings-section">
+        <h2 className="view__title">Darstellung</h2>
+        <label className="form-label">
+          Theme
+          <select
+            className="input"
+            value={settings.theme ?? "forest"}
+            onChange={(e) =>
+              void updateSettings({ theme: e.target.value as ThemeId })
+            }
+          >
+            {THEMES.map(({ id, label }) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </section>
+
       {/* ── A: Körperprofil ── */}
       <section className="settings-section">
         <h2 className="view__title">Körperprofil</h2>

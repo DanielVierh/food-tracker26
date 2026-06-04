@@ -1,7 +1,12 @@
 /* =========================================================
-   Design tokens
+   Design tokens — structural (theme-independent)
    ========================================================= */
 :root {
+  --radius: 0.5rem;
+  --gap: 1rem;
+  --font: system-ui, -apple-system, sans-serif;
+
+  /* Forest fallback (prevents FOUC before React sets data-theme) */
   --color-bg: #010611;
   --color-surface: #052827;
   --color-border: #021227;
@@ -10,10 +15,130 @@
   --color-primary: #0b8a31;
   --color-primary-hover: #059669;
   --color-danger: #ef4444;
+}
 
-  --radius: 0.5rem;
-  --gap: 1rem;
-  --font: system-ui, -apple-system, sans-serif;
+/* =========================================================
+   Themes
+   ========================================================= */
+
+/* Forest — dark green */
+[data-theme="forest"] {
+  --color-bg: #010611;
+  --color-surface: #052827;
+  --color-border: #021227;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-primary: #0b8a31;
+  --color-primary-hover: #059669;
+  --color-danger: #ef4444;
+}
+
+/* Ocean — deep blue */
+[data-theme="ocean"] {
+  --color-bg: #020b18;
+  --color-surface: #0a1f35;
+  --color-border: #0d2d4e;
+  --color-text: #e2f0ff;
+  --color-text-muted: #7eb8e8;
+  --color-primary: #0080ff;
+  --color-primary-hover: #3399ff;
+  --color-danger: #ef4444;
+}
+
+/* Sunset — warm orange/red */
+[data-theme="sunset"] {
+  --color-bg: #12040a;
+  --color-surface: #2a0e1a;
+  --color-border: #3d1326;
+  --color-text: #ffe4d6;
+  --color-text-muted: #c47e6f;
+  --color-primary: #ff6b35;
+  --color-primary-hover: #ff8c5a;
+  --color-danger: #ff2d2d;
+}
+
+/* Midnight — pure black/grey */
+[data-theme="midnight"] {
+  --color-bg: #000000;
+  --color-surface: #111111;
+  --color-border: #272727;
+  --color-text: #e5e5e5;
+  --color-text-muted: #888888;
+  --color-primary: #a0a0a0;
+  --color-primary-hover: #cccccc;
+  --color-danger: #ef4444;
+}
+
+/* Rose — pink/mauve */
+[data-theme="rose"] {
+  --color-bg: #120810;
+  --color-surface: #2a1022;
+  --color-border: #3d1633;
+  --color-text: #ffe8f5;
+  --color-text-muted: #c27ea0;
+  --color-primary: #e91e8c;
+  --color-primary-hover: #f540a0;
+  --color-danger: #ff3d3d;
+}
+
+/* Desert — sandy/golden brown */
+[data-theme="desert"] {
+  --color-bg: #130e04;
+  --color-surface: #2b1f08;
+  --color-border: #3d2c0a;
+  --color-text: #fdf0d0;
+  --color-text-muted: #b89a6e;
+  --color-primary: #d4820a;
+  --color-primary-hover: #e69b20;
+  --color-danger: #ef4444;
+}
+
+/* Arctic — light/ice blue */
+[data-theme="arctic"] {
+  --color-bg: #f0f8ff;
+  --color-surface: #dbeeff;
+  --color-border: #bddcf5;
+  --color-text: #0a1929;
+  --color-text-muted: #4a6fa5;
+  --color-primary: #0055c4;
+  --color-primary-hover: #0044a0;
+  --color-danger: #dc2626;
+}
+
+/* Volcano — dark red/magma */
+[data-theme="volcano"] {
+  --color-bg: #0d0000;
+  --color-surface: #200500;
+  --color-border: #3d0900;
+  --color-text: #ffe8e0;
+  --color-text-muted: #b05040;
+  --color-primary: #ff3500;
+  --color-primary-hover: #ff5522;
+  --color-danger: #ff6b6b;
+}
+
+/* Lavender — deep violet/purple */
+[data-theme="lavender"] {
+  --color-bg: #0a0614;
+  --color-surface: #180d2e;
+  --color-border: #2a1554;
+  --color-text: #ede8ff;
+  --color-text-muted: #9b8cc4;
+  --color-primary: #7c3aed;
+  --color-primary-hover: #8b5cf6;
+  --color-danger: #ef4444;
+}
+
+/* Cyber — neon yellow-green */
+[data-theme="cyber"] {
+  --color-bg: #020408;
+  --color-surface: #060e1a;
+  --color-border: #0c1f36;
+  --color-text: #f0ffe0;
+  --color-text-muted: #4aaa4a;
+  --color-primary: #c8ff00;
+  --color-primary-hover: #d4ff33;
+  --color-danger: #ff4444;
 }
 
 /* =========================================================

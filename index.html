@@ -6,6 +6,12 @@
     <link rel="apple-touch-icon" href="/Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>food-tracker26</title>
+    <script>
+      (function () {
+        var t = localStorage.getItem("food-tracker-theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -63,6 +63,18 @@ export interface EntryWithFood extends FoodEntry {
 // ---------------------------------------------------------------------------
 export type ActivityLevel = "sedentary" | "light" | "moderate" | "active";
 
+export type ThemeId =
+  | "forest"
+  | "ocean"
+  | "sunset"
+  | "midnight"
+  | "rose"
+  | "desert"
+  | "arctic"
+  | "volcano"
+  | "lavender"
+  | "cyber";
+
 export interface Settings extends Macros {
   /** Always 1 — enforces singleton pattern in Dexie */
   id: 1;
@@ -76,6 +88,8 @@ export interface Settings extends Macros {
   activityLevel?: ActivityLevel;
   /** Months to reach target weight — used for deficit calculation */
   goalMonths?: number;
+  /** UI color theme */
+  theme?: ThemeId;
 }
 
 // ---------------------------------------------------------------------------
