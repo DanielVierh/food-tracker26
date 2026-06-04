@@ -72,6 +72,11 @@ function formatDate(iso: string): string {
   return `${d}.${m}`;
 }
 
+function formatGramTick(value: number): string {
+  if (value >= 20) return String(Math.round(value));
+  return value.toFixed(1);
+}
+
 // ---------------------------------------------------------------------------
 // Props
 // ---------------------------------------------------------------------------
@@ -248,7 +253,7 @@ export default function MacroHistoryChart({
   }
 
   // -------------------------------------------------------------------------
-  // Macro line chart (% of goal)
+  // Macro line chart (absolute grams)
   // -------------------------------------------------------------------------
   function drawMacroChart(
     ctx: CanvasRenderingContext2D,
@@ -261,15 +266,25 @@ export default function MacroHistoryChart({
     textColor: string,
     borderColor: string,
   ) {
-    const maxPct = 150;
+    let maxGram = 0;
+    for (const key of MACRO_KEYS) {
+      if (!active.has(key)) continue;
+      const goal = goals[key as keyof Macros] as number;
+      maxGram = Math.max(maxGram, goal || 0);
+      for (const day of days) {
+        const value = (day[key as keyof DayData] as number) || 0;
+        maxGram = Math.max(maxGram, value);
+      }
+    }
+    const maxVal = Math.max(1, maxGram * 1.1);
 
     // Grid
-    const gridLines = 3; // 0, 50, 100, 150
+    const gridLines = 4;
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = 1;
     for (let i = 0; i <= gridLines; i++) {
-      const pct = (i / gridLines) * maxPct;
-      const y = PAD.top + plotH - (pct / maxPct) * plotH;
+      const gram = (i / gridLines) * maxVal;
+      const y = PAD.top + plotH - (gram / maxVal) * plotH;
       ctx.beginPath();
       ctx.moveTo(PAD.left, y);
       ctx.lineTo(PAD.left + plotW, y);
@@ -278,19 +293,8 @@ export default function MacroHistoryChart({
       ctx.fillStyle = textColor;
       ctx.font = "10px system-ui, sans-serif";
       ctx.textAlign = "right";
-      ctx.fillText(`${Math.round(pct)}%`, PAD.left - 5, y + 3);
+      ctx.fillText(`${formatGramTick(gram)} g`, PAD.left - 5, y + 3);
     }
-
-    // 100% dashed line
-    const y100 = PAD.top + plotH - (100 / maxPct) * plotH;
-    ctx.strokeStyle = "rgba(255,255,255,0.25)";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(PAD.left, y100);
-    ctx.lineTo(PAD.left + plotW, y100);
-    ctx.stroke();
-    ctx.setLineDash([]);
 
     const n = days.length;
     const slotW = plotW / Math.max(n - 1, 1);
@@ -298,8 +302,6 @@ export default function MacroHistoryChart({
     // Lines per macro
     for (const key of MACRO_KEYS) {
       if (!active.has(key)) continue;
-      const goal = goals[key as keyof Macros] as number;
-      if (!goal) continue;
       const color = MACRO_COLORS[key];
 
       ctx.strokeStyle = color;
@@ -309,9 +311,8 @@ export default function MacroHistoryChart({
       let started = false;
       for (let i = 0; i < n; i++) {
         const val = days[i][key as keyof DayData] as number;
-        const pct = (val / goal) * 100;
         const x = PAD.left + (n === 1 ? plotW / 2 : i * slotW);
-        const y = PAD.top + plotH - Math.min((pct / maxPct) * plotH, plotH);
+        const y = PAD.top + plotH - Math.min((val / maxVal) * plotH, plotH);
         if (!started) {
           ctx.moveTo(x, y);
           started = true;
@@ -325,9 +326,8 @@ export default function MacroHistoryChart({
       ctx.fillStyle = color;
       for (let i = 0; i < n; i++) {
         const val = days[i][key as keyof DayData] as number;
-        const pct = (val / goal) * 100;
         const x = PAD.left + (n === 1 ? plotW / 2 : i * slotW);
-        const y = PAD.top + plotH - Math.min((pct / maxPct) * plotH, plotH);
+        const y = PAD.top + plotH - Math.min((val / maxVal) * plotH, plotH);
         ctx.beginPath();
         ctx.arc(x, y, 3, 0, Math.PI * 2);
         ctx.fill();
