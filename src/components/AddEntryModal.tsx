@@ -77,7 +77,10 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
     if (!selectedFood?.id) return;
     localStorage.setItem("last-meal", meal);
     onAdd(selectedFood.id, meal, Number(amountG), selectedFood.name);
-    onClose();
+    setSelectedFood(null);
+    setAmountG("100");
+    setSavedToCustom(false);
+    setStep("search");
   }
 
   async function handleAddCustomFood() {
