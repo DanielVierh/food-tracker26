@@ -15,6 +15,7 @@
   --color-primary: #0b8a31;
   --color-primary-hover: #059669;
   --color-danger: #ef4444;
+  --color-ring-shadow: rgb(10, 161, 108);
 }
 
 /* =========================================================
@@ -31,6 +32,7 @@
   --color-primary: #0b8a31;
   --color-primary-hover: #059669;
   --color-danger: #ef4444;
+  --color-ring-shadow: rgb(10, 161, 108);
 }
 
 /* Ocean — deep blue */
@@ -43,6 +45,7 @@
   --color-primary: #0080ff;
   --color-primary-hover: #3399ff;
   --color-danger: #ef4444;
+  --color-ring-shadow: rgb(10, 161, 123);
 }
 
 /* Sunset — warm orange/red */
@@ -55,6 +58,7 @@
   --color-primary: #ff6b35;
   --color-primary-hover: #ff8c5a;
   --color-danger: #ff2d2d;
+  --color-ring-shadow: #ff6b35;
 }
 
 /* Midnight — pure black/grey */
@@ -67,6 +71,7 @@
   --color-primary: #a0a0a0;
   --color-primary-hover: #cccccc;
   --color-danger: #ef4444;
+  --color-ring-shadow: rgb(57, 58, 65);
 }
 
 /* Rose — pink/mauve */
@@ -79,6 +84,7 @@
   --color-primary: #e91e8c;
   --color-primary-hover: #f540a0;
   --color-danger: #ff3d3d;
+  --color-ring-shadow: #c27ea0;
 }
 
 /* Desert — sandy/golden brown */
@@ -91,6 +97,7 @@
   --color-primary: #d4820a;
   --color-primary-hover: #e69b20;
   --color-danger: #ef4444;
+  --color-ring-shadow: #d4820a;
 }
 
 /* Arctic — light/ice blue */
@@ -103,6 +110,7 @@
   --color-primary: #0055c4;
   --color-primary-hover: #0044a0;
   --color-danger: #dc2626;
+  --color-ring-shadow: rgb(10, 136, 161);
 }
 
 [data-theme="arctic"] .macro-ring__value-text {
@@ -123,6 +131,7 @@
   --color-primary: #2f80ed;
   --color-primary-hover: #1f6ed6;
   --color-danger: #d93a3a;
+  --color-ring-shadow: rgb(137, 134, 134);
 }
 
 [data-theme="snow"] .macro-ring__value-text {
@@ -143,6 +152,7 @@
   --color-primary: #7c3aed;
   --color-primary-hover: #8b5cf6;
   --color-danger: #ef4444;
+  --color-ring-shadow: rgb(10, 161, 108);
 }
 
 /* Cyber — neon yellow-green */
@@ -155,6 +165,7 @@
   --color-primary: #c8ff00;
   --color-primary-hover: #d4ff33;
   --color-danger: #ff4444;
+  --color-ring-shadow: rgb(10, 161, 108);
 }
 
 /* =========================================================
@@ -554,7 +565,7 @@ ul {
 }
 
 .macro-ring__svg {
-  filter: drop-shadow(0 0 10px rgb(10, 161, 108));
+  filter: drop-shadow(0 0 10px var(--color-ring-shadow));
   overflow: visible;
 }
 
