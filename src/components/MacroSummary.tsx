@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Macros } from "../types";
 import MacroBar from "./MacroBar";
+
+const MACRO_VIEW_MODE_KEY = "macro-summary-view-mode";
 
 interface MacroSummaryProps {
   totals: Macros;
@@ -101,7 +103,10 @@ export default function MacroSummary({
         ? "kcal-stat--deficit"
         : "";
 
-  const [viewMode, setViewMode] = useState<"bar" | "ring">("bar");
+  const [viewMode, setViewMode] = useState<"bar" | "ring">(() => {
+    const stored = localStorage.getItem(MACRO_VIEW_MODE_KEY);
+    return stored === "ring" || stored === "bar" ? stored : "bar";
+  });
   const [stepsStr, setStepsStr] = useState(() =>
     steps > 0 ? String(steps) : "",
   );
@@ -114,6 +119,10 @@ export default function MacroSummary({
     setPrevBurnedKcal(burnedKcal);
     setBurnedStr(burnedKcal > 0 ? String(burnedKcal) : "");
   }
+
+  useEffect(() => {
+    localStorage.setItem(MACRO_VIEW_MODE_KEY, viewMode);
+  }, [viewMode]);
 
   return (
     <>
