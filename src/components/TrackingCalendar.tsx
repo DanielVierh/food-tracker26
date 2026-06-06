@@ -88,7 +88,11 @@ export default function TrackingCalendar({
           const tracked = trackedSet.has(iso);
           const isToday = iso === todayIso;
           const kcal = monthKcal.get(iso) ?? 0;
-          const overGoal = tracked && kcal > settings.kcal;
+          const burnedKcal = Number(
+            localStorage.getItem(`burned-kcal-${iso}`) ?? 0,
+          );
+          const effectiveKcal = Math.round(kcal - burnedKcal);
+          const overGoal = tracked && effectiveKcal > settings.kcal;
 
           const classes = [
             "cal__day",
@@ -100,7 +104,7 @@ export default function TrackingCalendar({
             .join(" ");
 
           const label = tracked
-            ? `${iso}: ${Math.round(kcal)} kcal${overGoal ? " (Ziel überschritten)" : " (im Ziel)"}`
+            ? `${iso}: ${effectiveKcal} kcal${overGoal ? " (Ziel überschritten)" : " (im Ziel)"}`
             : iso;
 
           return (
