@@ -89,8 +89,8 @@
 
 /* Desert — sandy/golden brown */
 [data-theme="desert"] {
-  --color-bg: #130e04;
-  --color-surface: #2b1f08;
+  --color-bg: #615442;
+  --color-surface: #2b1f08d7;
   --color-border: #3d2c0a;
   --color-text: #fdf0d0;
   --color-text-muted: #b89a6e;
