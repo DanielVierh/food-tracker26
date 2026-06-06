@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { db } from "../db/db";
-import { searchOpenFoodFacts } from "../services/openFoodFacts";
 import type { Food } from "../types";
 
 const DEBOUNCE_MS = 600;
 // Minimum query length before hitting the OFF API — reduces rate-limit 503s
-const OFF_MIN_LENGTH = 4;
 
 // ---------------------------------------------------------------------------
 // useFoodSearch — debounced, local-first search.
@@ -47,23 +45,6 @@ export function useFoodSearch() {
         .toArray();
 
       setResults(local);
-
-      // 2. API fallback when few local hits and query is long enough
-      if (local.length < 5 && q.length >= OFF_MIN_LENGTH) {
-        const apiResults = await searchOpenFoodFacts(q);
-
-        if (apiResults.length > 0) {
-          // Cache in IndexedDB (ignore duplicates by barcode / name)
-          await Promise.all(apiResults.map((food) => cacheFood(food)));
-
-          // Re-query local DB so UI shows both cached + existing
-          const updated = await db.foods
-            .filter((f) => f.name.toLowerCase().includes(q.toLowerCase()))
-            .toArray();
-
-          setResults(updated);
-        }
-      }
     } finally {
       setIsLoading(false);
     }
@@ -82,18 +63,4 @@ export function useFoodSearch() {
   }
 
   return { query, setQuery, results, isLoading, addCustomFood };
-}
-
-// ---------------------------------------------------------------------------
-// Store a food from the API — skip if an identical barcode already exists
-// ---------------------------------------------------------------------------
-async function cacheFood(food: Food): Promise<void> {
-  if (food.barcode) {
-    const existing = await db.foods
-      .where("barcode")
-      .equals(food.barcode)
-      .first();
-    if (existing) return;
-  }
-  await db.foods.add(food);
 }
