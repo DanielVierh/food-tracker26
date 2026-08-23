@@ -13,6 +13,12 @@ interface EditEntryModalProps {
     amountG: number,
     foodName: string,
   ) => void;
+  onAddNew?: (
+    foodId: number,
+    meal: MealCategory,
+    amountG: number,
+    foodName: string,
+  ) => void;
   onClose: () => void;
 }
 
@@ -21,6 +27,7 @@ export default function EditEntryModal({
   onSave,
   onDelete,
   onAddToTomorrow,
+  onAddNew,
   onClose,
 }: EditEntryModalProps) {
   const [amountG, setAmountG] = useState(String(entry.amountG));
@@ -30,7 +37,14 @@ export default function EditEntryModal({
   const { food } = entry;
 
   function handleSave() {
-    if (entry.id === undefined) return;
+    if (entry.id === undefined) {
+      if (!entry.food.id) return;
+      if (onAddNew) {
+        onAddNew(entry.food.id, meal, Number(amountG), entry.food.name);
+        onClose();
+      }
+      return;
+    }
     onSave(entry.id, meal, Number(amountG));
     onClose();
   }

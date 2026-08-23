@@ -8,8 +8,9 @@ import MacroSummary from "./MacroSummary";
 import EntryList from "./EntryList";
 import AddEntryModal from "./AddEntryModal";
 import EditEntryModal from "./EditEntryModal";
+import { computeMacros } from "../utils/macros";
 import Toast from "./Toast";
-import type { MealCategory, EntryWithFood } from "../types";
+import type { MealCategory, EntryWithFood, Food } from "../types";
 
 function toISODate(date: Date): string {
   const y = date.getFullYear();
@@ -102,6 +103,22 @@ export default function DailyView({
     void addEntry(foodId, meal, amountG).then(() => {
       showToast(`✓ ${foodName} hinzugefügt`);
     });
+  }
+
+  function openEditForScannedFood(food: Food) {
+    const amountG = 100;
+    const mealFromStorage =
+      (localStorage.getItem("last-meal") as MealCategory | null) ?? "breakfast";
+    const entry: EntryWithFood = {
+      foodId: food.id as number,
+      date,
+      meal: mealFromStorage,
+      amountG,
+      food,
+      computed: computeMacros(food, amountG),
+    };
+    setShowModal(false);
+    setEditEntry(entry);
   }
 
   function handleDelete(id: number) {
@@ -208,13 +225,20 @@ export default function DailyView({
       <Toast message={toastMsg} />
 
       {showModal && (
-        <AddEntryModal onAdd={handleAdd} onClose={() => setShowModal(false)} />
+        <AddEntryModal
+          onAdd={handleAdd}
+          onClose={() => setShowModal(false)}
+          onOpenEditForScannedFood={openEditForScannedFood}
+        />
       )}
 
       {editEntry && (
         <EditEntryModal
           entry={editEntry}
           onSave={handleSaveEdit}
+          onAddNew={(foodId, meal, amountG, foodName) =>
+            void handleAdd(foodId, meal, amountG, foodName)
+          }
           onDelete={handleDelete}
           onAddToTomorrow={(foodId, meal, amountG, foodName) =>
             void handleAddToTomorrow(foodId, meal, amountG, foodName)

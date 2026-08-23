@@ -15,11 +15,16 @@ interface AddEntryModalProps {
     foodName: string,
   ) => void;
   onClose: () => void;
+  onOpenEditForScannedFood?: (food: Food) => void;
 }
 
 type Step = "search" | "amount";
 
-export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
+export default function AddEntryModal({
+  onAdd,
+  onClose,
+  onOpenEditForScannedFood,
+}: AddEntryModalProps) {
   const { query, setQuery, results, isLoading, addCustomFood } =
     useFoodSearch();
 
@@ -36,7 +41,11 @@ export default function AddEntryModal({ onAdd, onClose }: AddEntryModalProps) {
     setScanError("");
     const food = await lookupBarcode(barcode);
     if (food) {
-      handleSelectFood(food);
+      if (onOpenEditForScannedFood) {
+        onOpenEditForScannedFood(food);
+      } else {
+        handleSelectFood(food);
+      }
     } else {
       setScanError(`Produkt für Barcode ${barcode} nicht gefunden.`);
     }
